@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Threading;
+
 public class BallBehaviour : MonoBehaviour
 {
  
@@ -26,7 +28,17 @@ public class BallBehaviour : MonoBehaviour
 
     public Score point;
 
-   
+    public SpriteRenderer ball;
+
+
+    bool particle = false;
+
+
+    public GameObject redSquare;
+    public Red_square rSquare;
+
+
+    
     void Start()
     {
         elapsedTime = 0;
@@ -36,6 +48,7 @@ public class BallBehaviour : MonoBehaviour
         currentEndPos = endPos;
 
         destroyParticlesystem.Stop();
+        ball = GetComponent<SpriteRenderer>();
     }
 
 
@@ -60,8 +73,8 @@ public class BallBehaviour : MonoBehaviour
 
         if (moving) // if the ball is currently moving right
         {
-            transform.position = Vector3.Lerp(currentEndPos, currentStartPos, t);
-          
+            transform.position = Vector3.Lerp(currentStartPos, currentEndPos, t);
+
 
             if (t >= 1) // if the ball has reached the end position, toggle the moving_right flag to move left
             { 
@@ -73,7 +86,8 @@ public class BallBehaviour : MonoBehaviour
         }
         else // if the ball is currently moving left
         {
-            transform.position = Vector3.Lerp(currentStartPos, currentEndPos, t);
+            transform.position = Vector3.Lerp(currentEndPos, currentStartPos, t);
+          
 
 
             if (t >= 1) // if the ball has reached the start position, toggle the moving_right flag to move right
@@ -110,10 +124,10 @@ public class BallBehaviour : MonoBehaviour
 
     IEnumerator speed()
     {
-        duration = 1.8f;
+        duration = 1f;
         yield return new WaitForSeconds(0.2f);
         {
-            duration = 0.8f;
+            duration = 1f;
         }
     }
 
@@ -122,14 +136,36 @@ public class BallBehaviour : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("blackSquare"))
         {
+            ball.color = new Color(1,1,1,0f);
+            currentEndPos.x = 0;
+            currentStartPos.x = 0;
+             transform.position = Vector3.Lerp(currentEndPos, currentStartPos, t);
+
             destroyParticlesystem.Play();
-            Destroy(this.gameObject);
+           particle = true;
+           
+            StartCoroutine (DestroyDelay());
 
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
         {
           
+           
             point.IncrementScore();
+            rSquare.A();
+        }
+    }
+
+    IEnumerator DestroyDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        {
+            if (particle)
+            {
+               Destroy(this.gameObject);
+               
+               
+            }
         }
     }
 }
