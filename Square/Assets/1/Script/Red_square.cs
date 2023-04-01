@@ -11,7 +11,7 @@ public class Red_square : MonoBehaviour
     public Vector3 spawnPositionOffset;
 
 
-    private GameObject spawnedObject;
+    private   GameObject spawnedObject;
 
     //Spwan Motion Effects
     public float rotationSpeed = 50.0f;
@@ -22,20 +22,23 @@ public class Red_square : MonoBehaviour
        , sizeDecreaseDuration = 0.8f, t;
 
 
-    public float delaySize = 7.0f;
+    public float originalSize, targetSize,delaySize = 7.0f;
 
     public GameObject Ball;
+    float elapsedTime;
 
-    private Rigidbody2D rb;
 
-    private RigidbodyType2D bodyType;
+    GameObject a ;
+    bool success = false;
+
+    GameObject objs;
 
     void Start()
     {
+
       
         StartCoroutine(SpawnObject());
-
-
+       
 
 
 
@@ -45,7 +48,7 @@ public class Red_square : MonoBehaviour
     {
 
 
-        int spawnCounter = 0;
+       // int spawnCounter = 0;
         while (true)
         {
             Vector3 spawnPosition = transform.position + spawnPositionOffset;
@@ -53,24 +56,33 @@ public class Red_square : MonoBehaviour
             spawnedObject.transform.rotation = Quaternion.Euler(0, 0, -90);
 
 
+            if (success)
+            {
+               a = spawnedObject;
+            }
+
 
             StartCoroutine(RotateObject(spawnedObject));
-            StartCoroutine(DecreaseSizeCoroutine(spawnedObject));
-            StartCoroutine(DestroySquare(spawnedObject));
-            spawnCounter++;
+            // StartCoroutine(DecreaseSizeCoroutine(spawnedObject));
+            //StartCoroutine(DestroySquare(spawnedObject));
+          
+           // spawnCounter++;
 
+           /* 
             if (spawnCounter % 4 == 0) // check if the counter is a multiple of 4
             {
                 yield return new WaitForSeconds(5f); // add a delay before spawning the next object
             }
-
+           */
             yield return new WaitForSeconds(spawnInterval);
 
 
         }
     }
 
-    IEnumerator DestroySquare(GameObject obj)
+  
+
+   public IEnumerator DestroySquare(GameObject obj)
     {
         while (true)
         {
@@ -107,44 +119,45 @@ public class Red_square : MonoBehaviour
     }
 
 
-    private IEnumerator DecreaseSizeCoroutine(GameObject obj)                                 //<--------Spawn Size controller while destroying
+   public  IEnumerator DecreaseSizeCoroutine(GameObject obj)
     {
-        yield return new WaitForSeconds(delaySize);
+        yield return new WaitForSecondsRealtime(delaySize);
 
-        float originalSize = transform.localScale.x;
+        originalSize = transform.localScale.x;
         originalSize = 0.5f;
-        float targetSize = originalSize - sizeDecreaseAmount;
-        float elapsedTime = 0f;
+         targetSize = originalSize - sizeDecreaseAmount;
+       elapsedTime = 0f;
 
         while (elapsedTime < sizeDecreaseDuration)
         {
             elapsedTime += Time.deltaTime;
             t = Mathf.Clamp01(elapsedTime / sizeDecreaseDuration);
-            obj.transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, t);
+
+            if (obj != null && obj.activeSelf) // check if the object is still active
+            {
+                obj.transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, t);
+            }
+            else
+            {
+                break; // exit the loop if the object has been destroyed
+            }
+
             yield return null;
         }
-
-
     }
 
-    public void A()
+   public  IEnumerator DestroySquarse()
     {
-        if (spawnedObject != null && spawnedObject.activeSelf)
-        {
-
-
-            Destroy(spawnedObject);
+        while (true)
+        {  success = !false;
+            objs = a;
+            yield return new WaitForSeconds(1f);
+            Destroy(objs);
         }
-        else
-        {
-            Debug.Log("GameObject is already destroyed or inactive.");
-        }
-    } 
-
-    public void B()
-    {
-        spawnedObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
+
+
+    
 }
 
 

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-public class Score : MonoBehaviour
+using UnityEngine;
+
+public class points : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     private int score;
@@ -10,10 +11,10 @@ public class Score : MonoBehaviour
     void Start()
     {
         score = 0;
-        scoreText.text =  score.ToString();
+        scoreText.text = score.ToString();
     }
 
-   
+
 
     public void IncrementScore()
     {

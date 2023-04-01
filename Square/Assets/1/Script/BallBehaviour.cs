@@ -24,9 +24,9 @@ public class BallBehaviour : MonoBehaviour
 
 
     public BoxCollider2D BoxCollider2D;
-    public ParticleSystem destroyParticlesystem;
+  
 
-    public Score point;
+    //public Score point;
 
     public SpriteRenderer ball;
 
@@ -36,22 +36,26 @@ public class BallBehaviour : MonoBehaviour
 
     public GameObject redSquare;
     public Red_square rSquare;
-
+    public BlackSquare bSquare;
+    public DestroyParticleSystem dParticleSystem;
 
     
     void Start()
     {
+        rSquare = GetComponent<Red_square>();
+      
+
         elapsedTime = 0;
         StartCoroutine(IncreaseSizeCoroutine());
 
         currentStartPos = startPos;
         currentEndPos = endPos;
-
-        destroyParticlesystem.Stop();
+       
+     
         ball = GetComponent<SpriteRenderer>();
     }
 
-
+   
 
     private IEnumerator IncreaseSizeCoroutine()
     {
@@ -136,12 +140,20 @@ public class BallBehaviour : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("blackSquare"))
         {
+          
+          
+        
+           // dParticleSystem.UnpauseParticleSystem();
+
+         
+
+            
             ball.color = new Color(1,1,1,0f);
             currentEndPos.x = 0;
             currentStartPos.x = 0;
              transform.position = Vector3.Lerp(currentEndPos, currentStartPos, t);
 
-            destroyParticlesystem.Play();
+        
            particle = true;
            
             StartCoroutine (DestroyDelay());
@@ -151,20 +163,30 @@ public class BallBehaviour : MonoBehaviour
         {
           
            
-            point.IncrementScore();
-            rSquare.A();
+            //point.IncrementScore();
+          //  rSquare.A();
+
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+        {
+
+
+            dParticleSystem.UnpauseParticleSystem();
+            StartCoroutine(DestroyDelay());
         }
     }
 
     IEnumerator DestroyDelay()
     {
+       
         yield return new WaitForSeconds(5f);
         {
             if (particle)
             {
+               
                Destroy(this.gameObject);
-               
-               
+              
+
             }
         }
     }

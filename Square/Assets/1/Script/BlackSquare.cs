@@ -30,6 +30,7 @@ public class BlackSquare : MonoBehaviour
 
     void Start()
     {
+     
         StartCoroutine(SpawnObject());
 
        
@@ -120,5 +121,6 @@ public class BlackSquare : MonoBehaviour
 
        
     }
+    
 }
 

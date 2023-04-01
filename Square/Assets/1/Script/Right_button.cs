@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class Right_button : MonoBehaviour, IPointerClickHandler
 {
    
-    public BallBehaviour ball;
+    public BallNewBehaviour ball;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         ball.MoveRight();
