@@ -38,7 +38,7 @@ public class BallBehaviour : MonoBehaviour
     public Red_square rSquare;
     public BlackSquare bSquare;
     public DestroyParticleSystem dParticleSystem;
-
+   
     
     void Start()
     {
@@ -155,7 +155,7 @@ public class BallBehaviour : MonoBehaviour
 
         
            particle = true;
-           
+          
             StartCoroutine (DestroyDelay());
 
         }
@@ -172,7 +172,9 @@ public class BallBehaviour : MonoBehaviour
 
 
             dParticleSystem.UnpauseParticleSystem();
+            
             StartCoroutine(DestroyDelay());
+            
         }
     }
 

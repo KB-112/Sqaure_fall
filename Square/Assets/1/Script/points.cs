@@ -6,12 +6,14 @@ using UnityEngine;
 public class points : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreTexst;
     private int score;
 
     void Start()
-    {
+    { 
         score = 0;
         scoreText.text = score.ToString();
+        scoreTexst.text = score.ToString();
     }
 
 
@@ -20,5 +22,7 @@ public class points : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
+       
+        scoreTexst.text = score.ToString();
     }
 }

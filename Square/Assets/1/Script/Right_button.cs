@@ -8,7 +8,7 @@ public class Right_button : MonoBehaviour, IPointerClickHandler
     public BallNewBehaviour ball;
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        ball.MoveRight();
+        //ball.MoveRight();
     }
 
 

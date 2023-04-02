@@ -20,8 +20,8 @@ public class DestroyParticleSystem : MonoBehaviour
   public  void UnpauseParticleSystem()
     {
         destroyParticlesystem.Play();
-     //   var main = destroyParticlesystem.main;
-     //   main.useUnscaledTime = true;
+        var main = destroyParticlesystem.main;
+        main.useUnscaledTime = true;
 
     }
 }

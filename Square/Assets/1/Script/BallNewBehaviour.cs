@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class BallNewBehaviour : MonoBehaviour
@@ -19,17 +20,7 @@ public class BallNewBehaviour : MonoBehaviour
     private bool moving = true;
 
 
-
-
-
-
-
-
-
-
-
     public bool particle = false;
-
 
 
     public Red_square rSquare;
@@ -39,7 +30,10 @@ public class BallNewBehaviour : MonoBehaviour
     public points score;
 
 
+    public int numDirectionChanges = 0;
+    float i;
 
+   
     void Start()
     {
         rSquare = GetComponent<Red_square>();
@@ -47,6 +41,7 @@ public class BallNewBehaviour : MonoBehaviour
 
         elapsedTime = 0;
         StartCoroutine(IncreaseSizeCoroutine());
+
 
         currentStartPos = startPos;
         currentEndPos = endPos;
@@ -71,94 +66,63 @@ public class BallNewBehaviour : MonoBehaviour
             yield return null;
         }
     }
-    public void Update()
+    void Update()
     {
         float t = elapsedTime / duration;
 
-        if (moving) // if the ball is currently moving right
-        {
-           
-            transform.position = Vector3.Lerp(currentEndPos, currentStartPos, t);
+        if (moving)
+        { // if the ball is currently moving right
+            transform.position = Vector3.Lerp(startPos, endPos, t);
 
-            if (t >= 1 ) // if the ball has reached the end position, toggle the moving_right flag to move left
-            {
+            if (t >= 1)
+            { // if the ball has reached the end position, toggle the moving_right flag to move left
                 moving = false;
                 elapsedTime = 0;
-
-
             }
         }
-        else // if the ball is currently moving left
-        {
-            transform.position = Vector3.Lerp(currentStartPos, currentEndPos, t);
+        else
+        { // if the ball is currently moving left
+            transform.position = Vector3.Lerp(endPos, startPos, t);
 
-
-           
-
-            if (t >= 1 ) // if the ball has reached the start position, toggle the moving_right flag to move right
-            {
+            if (t >= 1)
+            { // if the ball has reached the start position, toggle the moving_right flag to move right
                 moving = true;
                 elapsedTime = 0;
             }
         }
 
+       
+    
+
+      if(Input.GetMouseButtonDown(0))
+        {
+            MoveLeft();
+        }
+
+
         elapsedTime += Time.deltaTime;
     }
 
 
-
-
-
     public void MoveLeft()
     {
-        if (moving && Vector3.Distance(transform.position, currentStartPos) < 1f) // if the ball is close to the start position while moving right
-        {
-            currentEndPos = transform.position; // set the current end position to the current position of the ball
-            currentStartPos = endPos; // set the current start position to the end position
+        elapsedTime = 0;
 
-            moving = false;
-            elapsedTime = 0;
-            StartCoroutine(speed());
-        }
-        else if (!moving) // if the ball is already moving towards the end point
-        {
-            currentStartPos = transform.position; // set the current start position to the current position of the ball
-            currentEndPos = endPos; // set the current end position to the end position
+        // Swap the start and end positions to reverse the direction
+        Vector3 temp = startPos;
+        startPos = endPos;
+        endPos = temp;
 
-            moving = true;
-            elapsedTime = 0;
-            StartCoroutine(speed());
-        }
+        moving = false;
+
+
+        StartCoroutine(speed());
     }
 
 
-    public void MoveRight()
-    {
-        if (!moving && Vector3.Distance(transform.position, currentEndPos) < 0.5f) // if the ball is close to the end position while moving left
-        {
-            currentStartPos = transform.position; // set the current start position to the current position of the ball
-            currentEndPos = startPos; // set the current end position to the start position
-
-            moving = true;
-            elapsedTime = 0;
-            StartCoroutine(speed());
-        }
-        else if (moving) // if the ball is already moving towards the start point
-        {
-            currentEndPos = transform.position; // set the current end position to the current position of the ball
-            currentStartPos = startPos; // set the current start position to the start position
-
-            moving = false;
-            elapsedTime = 0;
-            StartCoroutine(speed());
-        }
 
 
-
-    }
-
-
-        IEnumerator speed()
+    IEnumerator speed()
     {
         duration = 1f;
         yield return new WaitForSeconds(0.2f);
@@ -166,7 +130,6 @@ public class BallNewBehaviour : MonoBehaviour
             duration = 1f;
         }
     }
-
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

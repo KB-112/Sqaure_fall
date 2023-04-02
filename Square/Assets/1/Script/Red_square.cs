@@ -5,7 +5,6 @@ using UnityEngine;
 public class Red_square : MonoBehaviour
 {
     //Spwaning
-
     public GameObject[] objectToSpawn;
     public float spawnInterval = 0f;
     public Vector3 spawnPositionOffset;
@@ -23,7 +22,6 @@ public class Red_square : MonoBehaviour
 
 
     public float originalSize, targetSize,delaySize = 7.0f;
-
     public GameObject Ball;
     float elapsedTime;
 
@@ -40,13 +38,10 @@ public class Red_square : MonoBehaviour
         StartCoroutine(SpawnObject());
        
 
-
-
     }
 
     IEnumerator SpawnObject()                                                           //<--------Spawn Calling Controller
     {
-
 
        // int spawnCounter = 0;
         while (true)
@@ -76,11 +71,9 @@ public class Red_square : MonoBehaviour
            */
             yield return new WaitForSeconds(spawnInterval);
 
-
         }
     }
 
-  
 
    public IEnumerator DestroySquare(GameObject obj)
     {
@@ -101,7 +94,6 @@ public class Red_square : MonoBehaviour
             Destroy(obj);
         }
     }
-
     IEnumerator RotateObject(GameObject obj)                                             //<--------Spawn Roatation Controller
     {
         while (obj != null && obj.activeSelf) // check if the object is still active
@@ -111,13 +103,11 @@ public class Red_square : MonoBehaviour
         }
         Debug.Log("Destroyed - Not accessible");
     }
-
     void OnDrawGizmosSelected()                                                            //<--------Spawn Location On Unity Editor
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position + spawnPositionOffset, 0.1f);
     }
-
 
    public  IEnumerator DecreaseSizeCoroutine(GameObject obj)
     {
@@ -146,14 +136,10 @@ public class Red_square : MonoBehaviour
         }
     }
 
-   public  IEnumerator DestroySquarse()
+   public void DestroySquarse()
     {
-        while (true)
-        {  success = !false;
-            objs = a;
-            yield return new WaitForSeconds(1f);
-            Destroy(objs);
-        }
+      
+        originalSize = 0; 
     }
 
 

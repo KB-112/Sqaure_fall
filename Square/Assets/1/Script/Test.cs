@@ -1,0 +1,148 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+
+public class Test : MonoBehaviour
+{
+
+
+
+    // Public variables that can be accessed and modified in the Unity editor
+    public float travelDuration = 2;        // The time it takes for the object to travel from start to end position
+    public int multiplier = 1;              // Used to change the speed and direction of the object's movement
+    public float timeTracker = 0f;          // Keeps track of the object's position along its path
+    public Vector2 startPosition;           // The starting position of the object
+    public Vector2 endPosition;             // The end position of the object
+
+
+
+
+
+    private float sizeIncreaseAmount = 0.54f
+      , sizeIncreaseDuration = 0.54f, t;
+
+
+
+
+    public Red_square rSquare;
+
+    public DestroyParticleSystem destroyParticleSysteml;
+
+    public points score;
+
+    public SpriteRenderer ball;
+
+    public GameObject rball;
+
+    public CameraMOvement cameras;
+
+
+    public GameObject Score_text;
+
+    private void Start()
+    {
+        StartCoroutine(IncreaseSizeCoroutine());
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+       
+        // Increment timeTracker based on the current multiplier, the inverse of travelDuration, and the time elapsed since the last frame
+        timeTracker += Time.deltaTime * multiplier * (1 / travelDuration);
+
+        // Clamp timeTracker value between 0 and 1 to ensure that the object stays within the bounds of its path
+        timeTracker = Mathf.Clamp01(timeTracker);
+
+        // Set the position of the object using Vector2.Lerp to interpolate its position between the start and end position based on timeTracker
+        transform.position = Vector2.Lerp(startPosition, endPosition, timeTracker);
+
+        // If the object has reached the end of its path, invert the multiplier to change the direction of its movement
+        if (timeTracker == 1)
+        {
+            multiplier *= -1;
+        }
+        // If the object has reached the starting point, reset timeTracker to zero
+        else if (timeTracker == 0)
+        {
+            multiplier *= -1;
+        }
+
+        // If the spacebar is pressed, invert the multiplier to change the direction of the object's movement
+        if (Input.GetMouseButtonDown(0))
+        {
+            multiplier *= -1;
+        }
+       
+    }
+    private IEnumerator IncreaseSizeCoroutine()
+    {
+        float originalSize = transform.localScale.x;
+        float targetSize = originalSize + sizeIncreaseAmount;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < sizeIncreaseDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            t = Mathf.Clamp01(elapsedTime / sizeIncreaseDuration);
+            transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, t);
+            yield return null;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("blackSquare"))
+        {
+            ball.color = new Color(1, 1, 1, 0f);
+
+            destroyParticleSysteml.UnpauseParticleSystem();
+
+
+
+            Time.timeScale = 0;
+            StartCoroutine(DestroyDelay());
+           
+
+        }
+            if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
+        {
+            score.IncrementScore();
+
+
+            rSquare.DestroySquarse();
+
+
+
+
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+        {
+
+            ball.color = new Color(1, 1, 1, 0f);
+            destroyParticleSysteml.UnpauseParticleSystem();
+
+
+
+          //  Time.timeScale = 0;
+          
+
+            StartCoroutine(DestroyDelay());
+        }
+
+    }
+
+    IEnumerator DestroyDelay()
+    {
+     
+        yield return new WaitForSecondsRealtime(4.9f);
+        cameras.ball_collision_successful = true;
+        Debug.Log("Flag initiation Successfull");
+        yield return new WaitForSecondsRealtime(0.1f);
+       // Destroy(this.gameObject);
+
+    }
+}
+
+

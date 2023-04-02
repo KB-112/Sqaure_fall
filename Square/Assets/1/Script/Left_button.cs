@@ -10,7 +10,7 @@ public class Left_button : MonoBehaviour,IPointerClickHandler
     public void OnPointerClick(PointerEventData pointerEventData)
     {
        
-        ball.MoveLeft();
+      //ball.MoveLeft(); 
        
     }
 
