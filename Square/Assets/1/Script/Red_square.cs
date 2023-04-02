@@ -26,15 +26,17 @@ public class Red_square : MonoBehaviour
     float elapsedTime;
 
 
-    GameObject a ;
-    bool success = false;
+  
+   
 
-    GameObject objs;
+   
+
+   
 
     void Start()
     {
+ 
 
-      
         StartCoroutine(SpawnObject());
        
 
@@ -43,7 +45,7 @@ public class Red_square : MonoBehaviour
     IEnumerator SpawnObject()                                                           //<--------Spawn Calling Controller
     {
 
-       // int spawnCounter = 0;
+        int spawnCounter = 0;
         while (true)
         {
             Vector3 spawnPosition = transform.position + spawnPositionOffset;
@@ -51,24 +53,20 @@ public class Red_square : MonoBehaviour
             spawnedObject.transform.rotation = Quaternion.Euler(0, 0, -90);
 
 
-            if (success)
-            {
-               a = spawnedObject;
-            }
 
 
             StartCoroutine(RotateObject(spawnedObject));
-            // StartCoroutine(DecreaseSizeCoroutine(spawnedObject));
-            //StartCoroutine(DestroySquare(spawnedObject));
+            StartCoroutine(DecreaseSizeCoroutine(spawnedObject));
+            StartCoroutine(DestroySquare(spawnedObject));
           
-           // spawnCounter++;
+            spawnCounter++;
 
-           /* 
+            
             if (spawnCounter % 4 == 0) // check if the counter is a multiple of 4
             {
                 yield return new WaitForSeconds(5f); // add a delay before spawning the next object
             }
-           */
+           
             yield return new WaitForSeconds(spawnInterval);
 
         }
@@ -136,11 +134,7 @@ public class Red_square : MonoBehaviour
         }
     }
 
-   public void DestroySquarse()
-    {
-      
-        originalSize = 0; 
-    }
+  
 
 
     

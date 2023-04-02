@@ -109,9 +109,9 @@ public class Test : MonoBehaviour
             if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
         {
             score.IncrementScore();
+            Destroy(collision.gameObject);
 
-
-            rSquare.DestroySquarse();
+        
 
 
 
@@ -120,12 +120,12 @@ public class Test : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
         {
 
-            ball.color = new Color(1, 1, 1, 0f);
+            ball.color = new Color(1, 1, 1, 0.5f);
             destroyParticleSysteml.UnpauseParticleSystem();
 
 
 
-          //  Time.timeScale = 0;
+            Time.timeScale = 0;
           
 
             StartCoroutine(DestroyDelay());
@@ -140,7 +140,7 @@ public class Test : MonoBehaviour
         cameras.ball_collision_successful = true;
         Debug.Log("Flag initiation Successfull");
         yield return new WaitForSecondsRealtime(0.1f);
-       // Destroy(this.gameObject);
+        Destroy(this.gameObject);
 
     }
 }

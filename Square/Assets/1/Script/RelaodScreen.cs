@@ -7,7 +7,7 @@ public class RelaodScreen : MonoBehaviour
 
     public void O()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Scene");
         Debug.Log("scene Loaded");
     }
 

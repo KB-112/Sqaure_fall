@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstaclesController : MonoBehaviour
+public class CollectibleSpawnerController : MonoBehaviour
 {
     public Vector3 startPos;
     public Vector3 endPos;
-   
+    public float duration;
     private float elapsedTime;
-   
+
 
     private float t;
 
@@ -17,48 +17,21 @@ public class ObstaclesController : MonoBehaviour
 
     private bool moving = true;
 
-    bool player_stage_1 = false;
 
-
-
-    private float speedRunnner;
-   public float duration;
 
     void Start()
     {
         elapsedTime = 0;
-     
+
 
         currentStartPos = startPos;
         currentEndPos = endPos;
 
         StartCoroutine(SpawnObject());
-        speedRunnner = 10;
-       
     }
-    //code is hardcoded
+
     public void Update()
     {
-     if(Time.time  > speedRunnner )
-        {
-            Player_stages_1(10);
-        }
-     else
-        {
-            Player_stages_1(5);
-        }
-          
-
-        
-        
-    }
-
-    
-
-    void Player_stages_1(float run_1)
-    {
-       
-        duration = run_1;
         float t = elapsedTime / duration;
 
         if (moving) // if the ball is currently moving right
@@ -73,8 +46,10 @@ public class ObstaclesController : MonoBehaviour
         }
 
         elapsedTime += Time.deltaTime;
-    }
 
+
+
+    }
 
     IEnumerator SpawnObject()
     {
