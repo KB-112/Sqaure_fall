@@ -1,80 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using System;
 
-public class Test: MonoBehaviour
+public class RedBall : MonoBehaviour
 {
-
-   
- 
     public int multiplier = 1;              // Used to change the speed and direction of the object's movement
     public float timeTracker = 0f;          // Keeps track of the object's position along its path
     public Vector2 startPosition;           // The starting position of the object
     public Vector2 endPosition;             // The end position of the object
-
-
-
-
-
     private float t;
-
-
-
-
     public Red_square rSquare;
-
- 
-
     public points score;
-
-
-
     public GameObject rball;
-
-   
-
-
     public GameObject Score_text;
+
+    public DestroyParticleSystem destroyparticleSystem;
 
     public Renderer objectToFade;
     public float fadeRate;
 
 
-    public CameraMOvement cameras;
-    
-    public DestroyParticleSystem destroyParticleSysteml;
+    public bool stopball = false;
 
-   
+    public ObstaclesController[] obstaclesControllers;
 
-   
-
-    private void Start()
+    public CameraMOvement cameraMOvement;
+    public SoundSystem soundController;
+    void Start()
     {
 
-        cameras = GetComponent<CameraMOvement>();
-     
-        destroyParticleSysteml = GetComponent<DestroyParticleSystem>();
-
-
-
-        StartCoroutine(IncreaseSizeCoroutine(0.54f, 0.54f));
+  
+        StartCoroutine(IncreaseSizeCoroutine(0.44f, 0.44f));
+        
     }
 
     // Update is called once per frame
     private void Update()
     {
-
-        BallMovement(1.2f);
+        if (stopball)
+            return;
+     
         if (Input.GetMouseButtonDown(0))
         {
             multiplier *= -1;
-            Debug.Log("Vaule change");
-            BallMovement(0.5f);
+            
+
+            BallMovement(0.92f);
+            soundController.move();
+
+        }
+        else
+        {
+            BallMovement(1.2f);
         }
     }
-
-
 
     public void BallMovement(float travelDuration)
     {
@@ -90,31 +70,31 @@ public class Test: MonoBehaviour
         // If the object has reached the end of its path, invert the multiplier to change the direction of its movement
         if (timeTracker == 1)
         {
+         
             multiplier *= -1;
+            soundController.rebound();
         }
         // If the object has reached the starting point, reset timeTracker to zero
         else if (timeTracker == 0)
         {
+          
             multiplier *= -1;
+            soundController.rebound();
         }
 
-        // If the spacebar is pressed, invert the multiplier to change the direction of the object's movement
        
+        
 
 
     }
 
-
-
-
-
     private IEnumerator IncreaseSizeCoroutine(float sizeIncreaseAmount
-      , float sizeIncreaseDuration)
+    , float sizeIncreaseDuration)
     {
 
 
-        float originalSize = transform.localScale.x;
-
+        float originalSize= transform.localScale.x;
+        
 
         float targetSize = originalSize + sizeIncreaseAmount;
         float elapsedTime = 0f;
@@ -130,37 +110,48 @@ public class Test: MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-       
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
         {
             score.UpdateScore();
             Destroy(collision.gameObject);
-
-
-
-
-
-
+            soundController.point();
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
         {
 
             Debug.Log("destroy happen");
-         //   destroyParticleSysteml.UnpauseParticleSystem();
 
+
+            soundController.explode();
             if (collision.gameObject)
             {
-              //  StartCoroutine(FadeObject());
+               
+                stopball = true;
+
+                
+                for(int i = 0; i < obstaclesControllers.Length; i++)
+                {
+                    obstaclesControllers[i].shouldMove = true;
+                }
+                StartCoroutine(FadeObject());
+               // CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
+                //collider.enabled = false;
+
+                BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();  
+                collider.enabled = false;
+               
+                destroyparticleSystem.UnpauseParticleSystem();
+                
+                StartCoroutine(DestroyDelay());
+                
             }
 
 
-            //stopBall = false;
-           // obstaclesController.shouldMove = false;
-       //     obstaclesSpawnBehaviour.stopSpwaning = false;
+    
 
 
-
-         //   StartCoroutine(DestroyDelay());
+           
         }
 
     }
@@ -168,12 +159,13 @@ public class Test: MonoBehaviour
     IEnumerator DestroyDelay()
     {
 
-        yield return new WaitForSecondsRealtime(2.8f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         Debug.Log("Flag initiation Successfull");
 
-        cameras.ball_collision_successful = true;
-
+        destroyparticleSystem.NonActive();
+        yield return new WaitForSecondsRealtime(0.5f);
+        cameraMOvement.ball_collision_successful = true;
 
 
     }
@@ -202,6 +194,6 @@ public class Test: MonoBehaviour
         // Deactivate the object when the alpha value reaches 0
 
     }
+
+
 }
-
-

@@ -10,18 +10,22 @@ public class DestroyParticleSystem : MonoBehaviour
     void Start()
     {
         destroyParticlesystem = GetComponent<ParticleSystem>();
-        destroyParticlesystem.Stop();
-
        
-        
         
     }
 
   public  void UnpauseParticleSystem()
     {
         destroyParticlesystem.Play();
-        var main = destroyParticlesystem.main;
-        main.useUnscaledTime = true;
+        
 
     }
+
+    public void NonActive()
+    {
+        this.gameObject.SetActive(false);
+
+
+    }
+
 }

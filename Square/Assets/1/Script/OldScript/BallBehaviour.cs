@@ -171,7 +171,7 @@ public class BallBehaviour : MonoBehaviour
         {
 
 
-            dParticleSystem.UnpauseParticleSystem();
+           // dParticleSystem.UnpauseParticleSystem();
             
             StartCoroutine(DestroyDelay());
             

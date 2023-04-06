@@ -2,15 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+
 public class FPS : MonoBehaviour
 {
     public TextMeshProUGUI fpsText;
-    public float deltaTime;
+    public int fps{ get; private set; }
 
+
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
     void Update()
     {
-        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-        float fps = 1.0f / deltaTime;
+      
+
+
+
+       
+         fps = (int)(1 / Time.unscaledDeltaTime);
         fpsText.text = Mathf.Ceil(fps).ToString();
     }
 }

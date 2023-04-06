@@ -6,96 +6,82 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
 {
 
     private float spawnTimer;
-    private int objectCount;  // new variable to keep track of the number of spawned objects
-
-
-    // Spawning
-
+    public int objectCount;  
     public GameObject[] objectToSpawn;
     public float spawnInterval = 9f;
     public Vector3 spawnPositionOffset;
+   // private GameObject spawnedObject;
+   public Collectible collectible;
 
-    private GameObject spawnedObject;
+    bool spawningStart = false;
+    public RedBall redBall;
 
-
-    public GameObject[] collectibleObjects;
-
-    
+    private float destroyInstant ;
     void Start()
     {
-
+       
         spawnTimer = 0;
-        objectCount = 0;  // initialize object count to 0
+        objectCount = 0;   
+        spawningStart = false;
 
-        StartCoroutine(SpawnObject());
+        
+
     }
-
     public void Update()
     {
-       
+        
+        if (redBall.stopball)
+            return;
+        
+        
+        if(spawningStart)
+        {
+            Debug.Log("spwannn");
 
+            collectible.collectibleSpawning();
+        }
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnInterval)
         {
             Vector3 spawnPosition = transform.position + spawnPositionOffset;
-            spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
+            int randomIndex = Random.Range(0, objectToSpawn.Length);
+         GameObject  spawnedObject = Instantiate(objectToSpawn[randomIndex], spawnPosition, Quaternion.identity);
 
-            // increment object count
+
+            //spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
             objectCount++;
-           
-
-            Destroy(spawnedObject, 12f);
-
-
-            spawnTimer = 0;
-            
-        }
-
-
-
-        if (spawnedObject != null) // check if spawnedObject is not null
-        {
-            CollectibeleSpawnBehaviour(spawnedObject);
-        }
-        Debug.Log("Object count: " + objectCount);
-    }
-
-
-
-
-   
-        public void CollectibeleSpawnBehaviour(GameObject obj)
-        {
-            if (obj == null)
+            Debug.Log("Object count: " + objectCount);
+            if (objectCount > Random.Range(5,10)  )
             {
+             spawningStart = true;
+              
+                
+            }
+            
+           if(redBall.stopball)
+            {
+                destroyInstant = 0f;
+                Destroy(spawnedObject, destroyInstant);
+                spawnTimer = 0;
                 return;
             }
 
-            if (obj.activeSelf)
+            if (!redBall.stopball)
             {
-                if (objectCount % 2 == 0)
-                {
-                    if (collectibleObjects[0] != null)
-                    {
-                        collectibleObjects[0].SetActive(false);
-                    }
-                    if (collectibleObjects[2] != null)
-                    {
-                        collectibleObjects[2].SetActive(true);
-                    }
-                }
-               
+                destroyInstant = 8f;
+                Destroy(spawnedObject, destroyInstant);
+                spawnTimer = 0;
             }
-        }
 
-    
-    IEnumerator SpawnObject()
-    {
-        while (true)
-        {
-            yield return null;  // don't do anything in this coroutine
+           
         }
+        
+
     }
 
+  
 
+   
 }
+
+

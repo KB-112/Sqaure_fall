@@ -136,7 +136,7 @@ public class BallNewBehaviour : MonoBehaviour
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
         {
-            score.IncrementScore();
+            //score.IncrementScore();
             //rSquare.StartCoroutine(rSquare.DestroySquarse());
 
 
@@ -145,7 +145,7 @@ public class BallNewBehaviour : MonoBehaviour
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
         {
-            destroyParticleSysteml.UnpauseParticleSystem();
+          //  destroyParticleSysteml.UnpauseParticleSystem();
 
             Destroy(this.gameObject);
 

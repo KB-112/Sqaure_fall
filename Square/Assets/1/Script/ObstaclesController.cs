@@ -17,70 +17,72 @@ public class ObstaclesController : MonoBehaviour
 
     private bool moving = true;
 
-    bool player_stage_1 = false;
+ 
 
 
-
-    private float speedRunnner;
+   
    public float duration;
+
+   public bool shouldMove = true;
 
     void Start()
     {
+        if (!shouldMove) return;
         elapsedTime = 0;
      
 
         currentStartPos = startPos;
         currentEndPos = endPos;
 
-        StartCoroutine(SpawnObject());
-        speedRunnner = 10;
+
        
+
     }
-    //code is hardcoded
+  
     public void Update()
     {
-     if(Time.time  > speedRunnner )
-        {
-            Player_stages_1(10);
-        }
-     else
-        {
-            Player_stages_1(5);
-        }
-          
+        if (!shouldMove) return;
 
-        
-        
+        Player_stages_1();
+
+
     }
-
+    
     
 
-    void Player_stages_1(float run_1)
+ public void Player_stages_1()
     {
-       
-        duration = run_1;
+     
+            duration = 10f;
+
+
+        if (!shouldMove)
+        {
+            elapsedTime = 0;
+            return;
+        }
+
         float t = elapsedTime / duration;
 
-        if (moving) // if the ball is currently moving right
+        if (moving) 
         {
             transform.position = Vector3.Lerp(currentStartPos, currentEndPos, t);
 
-            if (t >= 1) // if the ball has reached the end position, toggle the moving_right flag to move left
+            if (t >= 1) 
             {
                 moving = false;
                 elapsedTime = 0;
-            }
-        }
 
+             
+            }
+
+
+        }
         elapsedTime += Time.deltaTime;
     }
 
 
-    IEnumerator SpawnObject()
-    {
-        while (true)
-        {
-            yield return null;  // don't do anything in this coroutine
-        }
-    }
+   
+
+    
 }
