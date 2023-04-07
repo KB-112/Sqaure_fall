@@ -32,14 +32,12 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
         
         if (redBall.stopball)
             return;
-        
-        
         if(spawningStart)
         {
-            Debug.Log("spwannn");
-
-            collectible.collectibleSpawning();
+            A();
         }
+
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnInterval)
         {
@@ -51,14 +49,45 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
             //spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
             objectCount++;
             Debug.Log("Object count: " + objectCount);
-            if (objectCount > Random.Range(5,10)  )
-            {
-             spawningStart = true;
+
+
+           
+    
+
+
+                if (objectCount > Random.Range(5, 10))
+                {
+                    
               
-                
+
             }
+
+               
+             
+                
+                    int a, b;
+
+                    a = objectCount;
+                    b = objectCount+5;
+
+            if (objectCount %5 ==0)
+
+            {
+                spawningStart = true;
+                Debug.Log("condotion meet");
             
-           if(redBall.stopball)
+            }
+
+                
+
+            
+               
+
+            
+
+
+
+            if (redBall.stopball)
             {
                 destroyInstant = 0f;
                 Destroy(spawnedObject, destroyInstant);
@@ -79,9 +108,15 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
 
     }
 
-  
+  void A()
+    {
+        collectible.collectibleSpawning();
+    }
 
-   
+    private void OnEnable()
+    {
+        A();
+    }
 }
 
 

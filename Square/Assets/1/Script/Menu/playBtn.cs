@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 
 
-
+using UnityEngine.SceneManagement;
 public class playBtn : MonoBehaviour
 {
     public AudioClip clip;
@@ -23,16 +23,12 @@ public class playBtn : MonoBehaviour
 
   public bool isPlaying = false;
 
-    public GameObject[] MainGameactivation;
+ 
 
     public void Start()
     {
 
-        for (int i = 0; i < MainGameactivation.Length; i++)
-        {
-            MainGameactivation[i].SetActive(false);
-
-        }
+    
         source = GetComponent<AudioSource>();
         button = GetComponent<Button>();
         originalScale = button.transform.localScale;
@@ -44,20 +40,11 @@ public class playBtn : MonoBehaviour
         source.PlayOneShot(clip);
         StartCoroutine(ReturnButtonToOriginalScale());
         isPlaying = true;
-
-
+        SceneManager.LoadSceneAsync("Scene",LoadSceneMode.Additive);
+        StartCoroutine(SceneUnload());
     }
 
-    public void MainGame()
-    {
-
-       
-        for (int i = 0; i < MainGameactivation.Length; i++)
-        {
-            MainGameactivation[i].SetActive(true);
-
-        }
-    }
+   
        
     IEnumerator ReturnButtonToOriginalScale()
     {   
@@ -75,5 +62,11 @@ public class playBtn : MonoBehaviour
             return;
         }
        
+    }
+
+    IEnumerator SceneUnload()
+    {
+        yield return new WaitForSeconds (2f);
+        SceneManager.UnloadSceneAsync("StartScene");
     }
 }

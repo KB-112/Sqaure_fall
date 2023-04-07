@@ -15,7 +15,7 @@ public class CameraMOvement : MonoBehaviour
 
     public bool ball_collision_successful = false;
 
-    public GameObject Restart_panel;
+    public GameObject[] Restart_panel;
 
     public GameObject highscoreText;
     void Start()
@@ -23,7 +23,7 @@ public class CameraMOvement : MonoBehaviour
       highscoreText.SetActive(false);
         startPosition = transform.position;
         targetPosition = startPosition + new Vector3(0f, distanceToMove, 0.0f);
-        Restart_panel.SetActive(false);
+        Restart_panel[0].SetActive(false);
         
     }
 
@@ -36,7 +36,8 @@ public class CameraMOvement : MonoBehaviour
 
             float step = speed * Time.unscaledDeltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-            Restart_panel.SetActive(true);
+            Restart_panel[0].SetActive(true);
+            Restart_panel[1].SetActive(false);
         }
     }
 

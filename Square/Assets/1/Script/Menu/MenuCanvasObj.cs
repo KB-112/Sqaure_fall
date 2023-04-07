@@ -19,7 +19,7 @@ public class MenuCanvasObj : MonoBehaviour
     float threshold = 0.01f; // adjust this value to change how close the camera needs to be to the end position to be considered "at destination"
 
 
-    public GameObject[] MainGameactivation;
+   
     public void MainGameCall()
     {
       

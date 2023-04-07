@@ -21,7 +21,7 @@ public class FPS : MonoBehaviour
 
 
        
-         fps = (int)(1 / Time.unscaledDeltaTime);
+         fps = (int)(1 / Time.deltaTime);
         fpsText.text = Mathf.Ceil(fps).ToString();
     }
 }

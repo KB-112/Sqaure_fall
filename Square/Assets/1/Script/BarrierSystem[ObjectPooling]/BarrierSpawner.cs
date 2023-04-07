@@ -10,8 +10,8 @@ public class BarrierSpawner : MonoBehaviour
     public List<GameObject> pooledObjects;
     public GameObject[] objectToPool;
     public int amountToPool;
+    [SerializeField] private float delayTimer;
 
-    
 
     void Awake()
     {
@@ -26,6 +26,7 @@ public class BarrierSpawner : MonoBehaviour
         {
             int randomIndex = Random.Range(0, objectToPool.Length);
             tmp = Instantiate(objectToPool[randomIndex]);
+           
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
         }
@@ -41,32 +42,51 @@ public class BarrierSpawner : MonoBehaviour
         {
             if (!pooledObjects[i].activeInHierarchy)
             {
-                
+
+                GameObject obj = pooledObjects[i];
+                obj.SetActive(true);
+                // move the object to the end of the list to change its order
+                pooledObjects.RemoveAt(i);
+                 pooledObjects.Add(obj);
+              
+                //ReturnObject(pooledObjects[i]);
                 return pooledObjects[i];
             }
+
+          
 
 
 
         }
-
-       
        
         return null;
 
 
         
     }
-    public void ReturnObject(GameObject obj)
+
+    public void SetTimer(float time)
     {
-        for (int i = 0; i < amountToPool; i++)
-        {
-            obj = pooledObjects[i];
-            obj.SetActive(false);
-        }
+        delayTimer = time;
     }
 
+    public void ReturnObject(GameObject obj)
+    {
+        StartCoroutine(DisableAfterDelay(obj, delayTimer));
+    }
 
+    IEnumerator DisableAfterDelay(GameObject obj, float delay)
+    { 
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
+        pooledObjects.Add(obj);
+    }
    
 
-   
+
+
+
+
+
+
 }

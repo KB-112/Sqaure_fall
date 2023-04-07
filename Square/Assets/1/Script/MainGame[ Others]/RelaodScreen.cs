@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class RelaodScreen : MonoBehaviour
 {
-    private SceneManager scene;
+   
     public SoundSystem soundSystem;
 
   
@@ -12,7 +12,7 @@ public class RelaodScreen : MonoBehaviour
     public GameObject Menu;
     public void Start()
     {
-       // scene = GetComponent<SceneManager>();
+     
 
     }
 
@@ -23,8 +23,8 @@ public class RelaodScreen : MonoBehaviour
         
         Debug.Log("scene Loaded");
     }
+   
 
-   
-   
+
 }
 

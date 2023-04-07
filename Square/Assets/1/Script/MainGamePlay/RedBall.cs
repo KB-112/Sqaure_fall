@@ -31,7 +31,7 @@ public class RedBall : MonoBehaviour
     {
 
   
-        StartCoroutine(IncreaseSizeCoroutine(0.44f, 0.44f));
+        StartCoroutine(IncreaseSizeCoroutine(0.54f, 0.54f));
         
     }
 
