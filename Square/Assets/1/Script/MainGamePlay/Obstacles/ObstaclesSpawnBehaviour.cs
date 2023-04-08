@@ -4,89 +4,29 @@ using UnityEngine;
 
 public class ObstaclesSpawnBehaviour : MonoBehaviour
 {
+ private float spawnTimer;
+ public GameObject[] objectToSpawn;
+ public float spawnInterval = 9f;
+ public Vector3 spawnPositionOffset;
 
-    private float spawnTimer;
-    public int objectCount;  
-    public GameObject[] objectToSpawn;
-    public float spawnInterval = 9f;
-    public Vector3 spawnPositionOffset;
-   // private GameObject spawnedObject;
-   public Collectible collectible;
-
-    bool spawningStart = false;
-    public RedBall redBall;
-
-    private float destroyInstant ;
+ public RedBall redBall;
+ private float destroyInstant ;
     void Start()
     {
-       
         spawnTimer = 0;
-        objectCount = 0;   
-        spawningStart = false;
-
-        
+      
 
     }
     public void Update()
     {
-        
         if (redBall.stopball)
             return;
-        if(spawningStart)
-        {
-            A();
-        }
-
-
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnInterval)
         {
-            Vector3 spawnPosition = transform.position + spawnPositionOffset;
-            int randomIndex = Random.Range(0, objectToSpawn.Length);
-         GameObject  spawnedObject = Instantiate(objectToSpawn[randomIndex], spawnPosition, Quaternion.identity);
-
-
-            //spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
-            objectCount++;
-            Debug.Log("Object count: " + objectCount);
-
-
-           
-    
-
-
-                if (objectCount > Random.Range(5, 10))
-                {
-                    
-              
-
-            }
-
-               
-             
-                
-                    int a, b;
-
-                    a = objectCount;
-                    b = objectCount+5;
-
-            if (objectCount %5 ==0)
-
-            {
-                spawningStart = true;
-                Debug.Log("condotion meet");
-            
-            }
-
-                
-
-            
-               
-
-            
-
-
-
+          Vector3 spawnPosition = transform.position + spawnPositionOffset;
+         int randomIndex = Random.Range(0, objectToSpawn.Length);
+            GameObject spawnedObject = Instantiate(objectToSpawn[randomIndex], spawnPosition, Quaternion.identity);    
             if (redBall.stopball)
             {
                 destroyInstant = 0f;
@@ -94,29 +34,14 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
                 spawnTimer = 0;
                 return;
             }
-
             if (!redBall.stopball)
             {
                 destroyInstant = 8f;
                 Destroy(spawnedObject, destroyInstant);
                 spawnTimer = 0;
-            }
-
-           
-        }
-        
-
-    }
-
-  void A()
-    {
-        collectible.collectibleSpawning();
-    }
-
-    private void OnEnable()
-    {
-        A();
-    }
+            }    
+        }        
+    } 
 }
 
 
