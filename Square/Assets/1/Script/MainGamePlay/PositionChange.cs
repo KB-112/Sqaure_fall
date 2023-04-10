@@ -1,42 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PositionChange : MonoBehaviour
 {
-    // Set the layers that should be checked for overlapping
-    public LayerMask overlappingLayers;
 
-    // The distance that should be checked for overlapping
-    public float overlapDistance = 0.1f;
+    public float speed = 1f;
+    private float originalY,targetY;
 
-    // The new position to move the overlapping object to
-    public Vector3 newPosition;
+    void Start()
+    {
+        originalY = transform.position.y;
+    }
 
     void Update()
     {
-        // Check if the object is overlapping with any other objects on the specified layers
-        Collider[] colliders = Physics.OverlapSphere(transform.position, overlapDistance, overlappingLayers);
+        float newY = Mathf.Lerp(originalY, targetY, speed * Time.deltaTime);
 
-        if(colliders.Length > 0)
-
-        {
-            // Move the object to the new position
-            transform.position = newPosition;
-
-            Debug.Log("Object moved to new position due to overlapping.");
-        }
-
-
-    else
-        {
-            Debug.Log("No overlapping detected.");
-        }
-
-
+        transform.position = new Vector2(transform.position.x, transform.position.y + speed * Time.deltaTime);
     }
-
-
 
 }
 

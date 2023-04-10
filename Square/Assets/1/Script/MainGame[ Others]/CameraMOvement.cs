@@ -37,7 +37,7 @@ public class CameraMOvement : MonoBehaviour
             float step = speed * Time.unscaledDeltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
             Restart_panel[0].SetActive(true);
-            Restart_panel[1].SetActive(false);
+            Restart_panel[1].SetActive(true);
         }
     }
 

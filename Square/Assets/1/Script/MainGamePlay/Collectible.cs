@@ -22,12 +22,14 @@ public class Collectible : MonoBehaviour
     public TargetSb targetSb;
 
     //----------------------------------------------//
-   
+
+  
+
 
     void Start()
     {
         objectCount = 0;
-       
+
     }
 
     void Update()
@@ -63,31 +65,34 @@ public class Collectible : MonoBehaviour
                     if (colliders.Length == 0)
                     {
                         spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
-
-
-
+                      
                     }
-
-                    Collider2D _collider = Physics2D.OverlapArea(targetSb.rightCorner, targetSb.leftCorner);
-
-                    if (_collider != null)
-                    {
-                        Destroy(spawnedObject);
-                    }
-
 
 
                 }
-            }
 
+                Collider2D _collider = Physics2D.OverlapArea(targetSb.rightCorner, targetSb.leftCorner);
+
+                if (_collider != null)
+                {
+                    Destroy(spawnedObject);
+                }
+
+
+            }
             objectCount++;
             spawnTimer = 0;
-
-
         }
-        
+
+       
+
+
     }
+
+
 }
+
+
 
 
 
