@@ -2,117 +2,87 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
+
 
 public class RedBall : MonoBehaviour
 {
-    public int multiplier = 1;
-    public float timeTracker = 0f;
-    public float startPosition;
+  [Header("BOOLEAN")]
+  public bool stopball = false;
+  bool check = false;
+
+    [Header("DEFAULT VALUE")]
+  [SerializeField] private int   multiplier = 1;
+  [SerializeField] private float storedposition;
+                   private float storedScaleBallTime;
+  [SerializeField] private float timeTracker = 0f;
 
 
-  [SerializeField]  private float storedposition;
-
-    private float t;
-    public Red_square rSquare;
-    public points score;
-    public GameObject rball;
-    public GameObject Score_text;
-
-    public DestroyParticleSystem destroyparticleSystem;
-
-    public Renderer objectToFade;
+  [Header("USER INPUT")]
+  [SerializeField] private float startPosition;
+  [SerializeField] private float sizeIncreaseAmount, sizeIncreaseDuration;
+  [SerializeField] private float travelDuration;
+                   public GameObject bar;
+                   public GameObject rball;
+                   public GameObject Score_text;
 
 
+   [Header("REFRENCE SCRIPT")]
+   public SpriteRenderer barPathSize;
+   public CameraMOvement cameraMOvement;
+   public DestroyParticleSystem destroyparticleSystem;
+   public ObstaclesController[] obstaclesControllers;
+   public Red_square rSquare;
+   public points score;
+   public SoundSystem soundController;
 
-    public bool stopball = false;
-
-    public ObstaclesController[] obstaclesControllers;
-
-    public CameraMOvement cameraMOvement;
-    public SoundSystem soundController;
-
-    public float sizeIncreaseAmount
-    , sizeIncreaseDuration;
-
-    public SpriteRenderer barPathSize;
-    public GameObject bar;
-
-    public float travelDuration;
-    bool check = false;
     void Start()
     {
-
-
-
         StartCoroutine(IncreaseSizeCoroutine());
-
-        barPathSize.size = new Vector2(2 * Math.Abs(startPosition - 0.25f - transform.localScale.x / 2), 0.58f);
+        barPathSize.size = new Vector2(2 * Math.Abs(startPosition - 0.25f - transform.localScale.x / 2), 0.58f);  //bar length dependency accorrding to ball coordinates 
         bar.transform.position = new Vector2(0, -startPosition);
-
     }
 
-    // Update is called once per frame
+  
     private void Update()
     {
-        if (stopball)
-            return;
+        if (stopball) return;
 
-
-      
-
-
-
-    
         if (Input.GetMouseButtonDown(0))
         {
             multiplier *= -1;
-            check = true;
-          
+            check = true;         
             BallMovement();
-
-
             travelDuration = 1.3f;
-
-
-
-
-            soundController.move();
-
-
+            soundController.move();                                        //Ball Controller
         }
         else
-        {check = false;
+        {   check = false;
             travelDuration = 1.3f;
             BallMovement();
         }
-
     }
 
     public void BallMovement()
-    {
-       
+    {    
         timeTracker += Time.deltaTime * multiplier * (1 / travelDuration);
-
-
         timeTracker = Mathf.Clamp01(timeTracker);
         if (check)
         {
             storedposition = 1 / storedposition;
             Debug.Log(storedposition);
-            storedposition = Mathf.Lerp(startPosition, -startPosition, timeTracker);
+            storedposition = Mathf.Lerp(startPosition, -startPosition, timeTracker);                               //Ball Input Controller
         }
         else if (!check)
         {
             storedposition = Mathf.Lerp(startPosition, -startPosition, timeTracker);
         }
-        transform.position = new Vector2(storedposition, -startPosition);
+             transform.position = new Vector2(storedposition, -startPosition);
 
 
         if (timeTracker == 1)
         {
 
-            multiplier *= -1;
+             multiplier *= -1;
              soundController.rebound();
         }
 
@@ -124,38 +94,18 @@ public class RedBall : MonoBehaviour
         }
 
 
-
-
-
-    }
-
-
-
-
-   
-
-
-    
-       
-       
-
-
+    }           
 
     private IEnumerator IncreaseSizeCoroutine()
     {
-
-
         float originalSize = transform.localScale.x;
-
-
         float targetSize = originalSize + sizeIncreaseAmount;
         float elapsedTime = 0f;
-
-        while (elapsedTime < sizeIncreaseDuration)
+        while (elapsedTime < sizeIncreaseDuration)                                                                   //Ball Size Controller
         {
             elapsedTime += Time.deltaTime;
-            t = Mathf.Clamp01(elapsedTime / sizeIncreaseDuration);
-            transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, t);
+            storedScaleBallTime = Mathf.Clamp01(elapsedTime / sizeIncreaseDuration);
+            transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, storedScaleBallTime);
             yield return null;
         }
     }
@@ -175,7 +125,7 @@ public class RedBall : MonoBehaviour
             Debug.Log("destroy happen");
 
 
-            soundController.explode();
+            soundController.explode();                                                                              //Ball all  object collision  Controller
             if (collision.gameObject)
             {
 
@@ -199,22 +149,14 @@ public class RedBall : MonoBehaviour
 
             }
 
-
-
-
-
-
         }
 
     }
 
-    IEnumerator DestroyDelay()
+    IEnumerator DestroyDelay()                                                    //Ball Destroy controller and restart page calling
     {
-
         yield return new WaitForSecondsRealtime(0.5f);
-
-        Debug.Log("Flag initiation Successfull");
-
+        Debug.Log("Flag initiation Successfull");                                            
         destroyparticleSystem.NonActive();
         yield return new WaitForSecondsRealtime(0.5f);
         cameraMOvement.ball_collision_successful = true;

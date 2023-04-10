@@ -19,13 +19,8 @@ public class Collectible : MonoBehaviour
     public Vector2 spawnCorner3; // Third corner of the spawn area
     public Vector2 spawnCorner4; // Fourth corner of the spawn area
 
+    [Header("REFERENCE SCRIPTS")]
     public TargetSb targetSb;
-
-    //----------------------------------------------//
-
-  
-
-
     void Start()
     {
         objectCount = 0;

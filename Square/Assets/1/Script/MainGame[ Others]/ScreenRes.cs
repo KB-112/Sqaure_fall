@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ScreenRes : MonoBehaviour
 {
-    private Camera mainCamera;
+    [Header("MAINTAIN SCREEN RESOLUTION FOR DIFFRENT DEVICES")]
+  [SerializeField]  private Camera mainCamera;
 
     void Start()
     {

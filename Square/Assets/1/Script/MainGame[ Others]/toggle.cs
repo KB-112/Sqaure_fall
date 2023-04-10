@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class toggle : MonoBehaviour
 {
+    [Header("TESTING CONTROLLER")]
     private BoxCollider2D box;
-
-
-
     private void Start()
     {
         box = GetComponent<BoxCollider2D>();

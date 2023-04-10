@@ -5,37 +5,26 @@ using UnityEngine;
 
 public class points : MonoBehaviour
 {
-  
-
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScore;
-
-
-    public int highScore;
-    public int score;
+    private int highScore;
+    private int score;
 
     void Start()
-    {
-        // Load the saved high score from PlayerPrefs
+    {     
         highScore = PlayerPrefs.GetInt("HighScore", 0);
-        bestScore.text = highScore.ToString(); // update the best score text with the saved high score
+        bestScore.text = highScore.ToString(); 
     }
 
     public void UpdateScore()
     {
-        score++;
-
-        // Update the score text
+        score++;      
         scoreText.text = score.ToString();
 
         if (score > highScore)
         {
-            highScore = score;
-
-            // Save the new high score to PlayerPrefs
-            PlayerPrefs.SetInt("HighScore", highScore);
-
-            // Update the best score text with the new high score
+            highScore = score;          
+            PlayerPrefs.SetInt("HighScore", highScore);           
             bestScore.text = "Best"+ highScore.ToString();
         }
     }

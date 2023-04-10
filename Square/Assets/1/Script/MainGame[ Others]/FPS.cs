@@ -6,22 +6,18 @@ using TMPro;
 
 public class FPS : MonoBehaviour
 {
+    private int fps;
+    [Header("FPS CONTROL")]
     public TextMeshProUGUI fpsText;
-    public int fps{ get; private set; }
-
+    [SerializeField] private int targetFps;
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = targetFps;
     }
     void Update()
-    {
-      
-
-
-
-       
-         fps = (int)(1 / Time.deltaTime);
+    {         
+        fps = (int)(1 / Time.deltaTime);
         fpsText.text = Mathf.Ceil(fps).ToString();
     }
 }
