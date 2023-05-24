@@ -5,21 +5,21 @@ using UnityEngine;
 public class toggle : MonoBehaviour
 {
     [Header("TESTING CONTROLLER")]
-    private BoxCollider2D box;
+    private CircleCollider2D Circle;
     private void Start()
     {
-        box = GetComponent<BoxCollider2D>();
+        Circle = GetComponent<CircleCollider2D>();
     }
 
     public void collder()
     {
-        if (box.enabled)
+        if (Circle.enabled)
         {
-            box.enabled = false;
+            Circle.enabled = false;
         }
         else
         {
-            box.enabled = true;
+            Circle.enabled = true;
         }
 
     }

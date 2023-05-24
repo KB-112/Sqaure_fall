@@ -140,7 +140,8 @@ public class RedBall : MonoBehaviour
 
                 SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
                 spriteRenderer.enabled = false;
-                BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+             //   BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+             CircleCollider2D collider = GetComponent<CircleCollider2D>();
                 collider.enabled = false;
 
                 destroyparticleSystem.UnpauseParticleSystem();

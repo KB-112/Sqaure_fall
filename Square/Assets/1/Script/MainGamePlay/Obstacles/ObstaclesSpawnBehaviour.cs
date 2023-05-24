@@ -4,42 +4,67 @@ using UnityEngine;
 
 public class ObstaclesSpawnBehaviour : MonoBehaviour
 {
-  private float spawnTimer;
-  [Header("USER INPUT")]
-  public GameObject[] objectToSpawn;
-  public float spawnInterval = 9f;
-  public Vector3 spawnPositionOffset;
-  public RedBall redBall;
-  [SerializeField]private float destroyInstant ;
+    public List<GameObject> gameObjects;
+    public float interval = 1f;
+    private int currentIndex = 0;
+    private int iterations = 0;
+    public Vector3 spawnPositionOffset;
 
-    void Start() { spawnTimer = 0; }
-    
+
+    public RedBall redBall;
+
+    GameObject spawnedObject;
+    [SerializeField] private float destroyInstant;
+    private void Start()
+    {
+        StartCoroutine(InstantiateGameObjects());
+    }
     public void Update()
     {
-        if (redBall.stopball) return;
 
-        spawnTimer += Time.deltaTime;
-
-        if (spawnTimer >= spawnInterval)
+        if (redBall.stopball)
         {
+            destroyInstant = 0f;
+            Destroy(spawnedObject, destroyInstant);
+
+            return;
+        }
+        if (!redBall.stopball)
+        {
+            destroyInstant = 11f;
+            Destroy(spawnedObject, destroyInstant);
+        }
+    }
+    private IEnumerator InstantiateGameObjects()
+    {
+        while (true)
+        {
+
             Vector3 spawnPosition = transform.position + spawnPositionOffset;
-            int randomIndex = Random.Range(0, objectToSpawn.Length);
-            GameObject spawnedObject = Instantiate(objectToSpawn[randomIndex], spawnPosition, Quaternion.identity);    
-            if (redBall.stopball)
+            spawnedObject = Instantiate(gameObjects[currentIndex], transform.position, Quaternion.identity);
+            currentIndex = (currentIndex + 1) % gameObjects.Count;
+
+            iterations++;
+            if (iterations % 3 == 0)
             {
-                destroyInstant = 0f;
-                Destroy(spawnedObject, destroyInstant);
-                spawnTimer = 0;
-                return;
+                gameObjects.Shuffle();
             }
-            if (!redBall.stopball)
-            {
-                destroyInstant = 8f;
-                Destroy(spawnedObject, destroyInstant);
-                spawnTimer = 0;
-            }    
-        }        
-    } 
+            spawnedObject.SetActive(false);
+            yield return new WaitForSeconds(interval);
+
+            spawnedObject.SetActive(true);
+
+
+
+        }
+
+    }
+    private IEnumerator DestroyBall()
+    {
+        yield return new WaitForSeconds(8f);
+        Destroy(spawnedObject, destroyInstant);
+    }
+
 }
 
 

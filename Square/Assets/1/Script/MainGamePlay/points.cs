@@ -25,7 +25,7 @@ public class points : MonoBehaviour
         {
             highScore = score;          
             PlayerPrefs.SetInt("HighScore", highScore);           
-            bestScore.text = "Best"+ highScore.ToString();
+            bestScore.text =  highScore.ToString();
         }
     }
 
