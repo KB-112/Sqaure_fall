@@ -8,17 +8,13 @@ public class Collectible : MonoBehaviour
     [Header("DEFAULT VALUES")]
 
     [SerializeField] private int objectCount;
-    private GameObject spawnedObject;
+   
 
     [Header("USER INPUTS")]
     public float interval = 1f;
     private float destroyInstant;
-    public List<GameObject> objectToSpawn;
-    [Header("SPAWN COORDINATES")]
-    public Vector2 spawnCorner1; // First corner of the spawn area
-    public Vector2 spawnCorner2; // Second corner of the spawn area
-    public Vector2 spawnCorner3; // Third corner of the spawn area
-    public Vector2 spawnCorner4; // Fourth corner of the spawn area
+    public List<GameObject> Collectibles;
+   
 
 
     void Start()
@@ -30,7 +26,7 @@ public class Collectible : MonoBehaviour
     private IEnumerator DestroyCollectibles()
     {
         yield return new WaitForSeconds(8f);
-        Destroy(spawnedObject, destroyInstant);
+       // Destroy(spawnedObject, destroyInstant);
     }
 
 
@@ -49,17 +45,9 @@ public class Collectible : MonoBehaviour
                 if (a < c && c < b || a == c || b == c)
                 {
                     Debug.Log(c);
-                    Vector2 spawnPosition = new Vector3(Random.Range(
+                 
 
-                    Mathf.Min(spawnCorner1.x, spawnCorner2.x, spawnCorner3.x, spawnCorner4.x),
-                    Mathf.Max(spawnCorner1.x, spawnCorner2.x, spawnCorner3.x, spawnCorner4.x)),
-
-                    Random.Range(
-                    Mathf.Min(spawnCorner1.y, spawnCorner2.y, spawnCorner3.y, spawnCorner4.y),
-                    Mathf.Max(spawnCorner1.y, spawnCorner2.y, spawnCorner3.y, spawnCorner4.y)));
-
-
-                    spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);
+                   
                     StartCoroutine(DestroyCollectibles());
 
 
@@ -89,5 +77,21 @@ if (colliders.Length == 0)
 */
 
 
+/*    Vector2 spawnPosition = new Vector3(Random.Range(
 
+                 Mathf.Min(spawnCorner1.x, spawnCorner2.x, spawnCorner3.x, spawnCorner4.x),
+                   Mathf.Max(spawnCorner1.x, spawnCorner2.x, spawnCorner3.x, spawnCorner4.x)),
+
+                   Random.Range(
+                   Mathf.Min(spawnCorner1.y, spawnCorner2.y, spawnCorner3.y, spawnCorner4.y),
+                   Mathf.Max(spawnCorner1.y, spawnCorner2.y, spawnCorner3.y, spawnCorner4.y)));
+                spawnedObject = Instantiate(objectToSpawn[0], spawnPosition, Quaternion.identity);  
+
+  [Header("SPAWN COORDINATES")]
+    public Vector2 spawnCorner1; // First corner of the spawn area
+    public Vector2 spawnCorner2; // Second corner of the spawn area
+    public Vector2 spawnCorner3; // Third corner of the spawn area
+    public Vector2 spawnCorner4; // Fourth corner of the spawn area
+ 
+ */
 

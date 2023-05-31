@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PositionChange : MonoBehaviour
 {
-    [Header("COLLECTIBLE MOvVEMENT IN Y DIRECTION")]
+    [Header("COLLECTIBLE MOVEMENT IN Y DIRECTION")]
     public float speed = 1f;
     private float originalY,targetY;
 

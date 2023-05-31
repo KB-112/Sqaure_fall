@@ -10,24 +10,31 @@ public class points : MonoBehaviour
     private int highScore;
     private int score;
 
+  //  public GameObject scorehide;
+
     void Start()
-    {     
+    {
         highScore = PlayerPrefs.GetInt("HighScore", 0);
-        bestScore.text = highScore.ToString(); 
+        bestScore.text = highScore.ToString();
     }
 
     public void UpdateScore()
     {
-        score++;      
+        score++;
         scoreText.text = score.ToString();
 
         if (score > highScore)
         {
-            highScore = score;          
-            PlayerPrefs.SetInt("HighScore", highScore);           
-            bestScore.text =  highScore.ToString();
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            bestScore.text = highScore.ToString();
         }
     }
 
-    
+
+    /* public void ScoreHide()
+     {
+         scorehide.SetActive(false);
+     }
+ */
 }

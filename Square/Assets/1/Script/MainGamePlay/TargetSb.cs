@@ -7,10 +7,15 @@ public class TargetSb : MonoBehaviour
 
     [Header("SCREEN BOUNDS CONSTRAINTS")]  //collision detection i.e collectibles or obstacles
     public Vector2 rightCorner;
-    public Vector2 leftCorner;
-   
+    public Vector2 rightCorner1;
+    // public Vector2 leftCorner;
+
     private void OnDrawGizmos()
     {
-        ScreenBounds.DrawRectange(rightCorner,leftCorner);
+
+        //  ScreenBounds.DrawRectange(rightCorner,leftCorner);
+
+        ScreenBounds.DrawRectange(rightCorner);
+        ScreenBounds.DrawRectange(rightCorner1);
     }
 }

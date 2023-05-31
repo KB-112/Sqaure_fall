@@ -9,13 +9,7 @@ public class RelaodScreen : MonoBehaviour
 
   
 
-    public GameObject Menu;
-    public void Start()
-    {
-     
-
-    }
-
+   
     public void O()
     {
         soundSystem.button();

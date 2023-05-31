@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: -8}
-  endPos: {x: 0, y: 8}
-  duration: 10
+  endPos: {x: 0, y: 15}
+  duration: 13
   shouldMove: 1
 --- !u!1 &1772450069136744443
 GameObject:

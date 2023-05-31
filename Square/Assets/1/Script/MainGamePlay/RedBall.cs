@@ -38,7 +38,7 @@ public class RedBall : MonoBehaviour
     void Start()
     {
         StartCoroutine(IncreaseSizeCoroutine());
-        barPathSize.size = new Vector2(2 * Math.Abs(startPosition - 0.25f - transform.localScale.x / 2), 0.58f);  //bar length dependency accorrding to ball coordinates 
+        barPathSize.size = new Vector2(2 * Math.Abs(startPosition - 0.25f - transform.localScale.x / 2), 0.48f);  //bar length dependency accorrding to ball coordinates 
         bar.transform.position = new Vector2(0, -startPosition);
     }
 
@@ -143,7 +143,9 @@ public class RedBall : MonoBehaviour
              //   BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
              CircleCollider2D collider = GetComponent<CircleCollider2D>();
                 collider.enabled = false;
-
+                //score.ScoreHide();
+                StartCoroutine(A());
+               
                 destroyparticleSystem.UnpauseParticleSystem();
 
                 StartCoroutine(DestroyDelay());
@@ -165,6 +167,10 @@ public class RedBall : MonoBehaviour
 
     }
 
-
+    IEnumerator A()
+    {
+        yield return null;
+        GoogleAdMobController.instance.ShowAd();
+    }
 
 }

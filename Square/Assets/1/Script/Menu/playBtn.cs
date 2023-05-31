@@ -9,8 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class playBtn : MonoBehaviour
 {
-    public AudioClip clip;
-     AudioSource source;
+  
    private Button button;
 
 
@@ -29,7 +28,6 @@ public class playBtn : MonoBehaviour
     {
 
     
-        source = GetComponent<AudioSource>();
         button = GetComponent<Button>();
         originalScale = button.transform.localScale;
     }
@@ -37,7 +35,7 @@ public class playBtn : MonoBehaviour
     { 
         Vector2 newScale = originalScale * decreaseFactor;
         button.transform.localScale = newScale;
-        source.PlayOneShot(clip);
+        
         StartCoroutine(ReturnButtonToOriginalScale());
         isPlaying = true;
         SceneManager.LoadSceneAsync("Scene",LoadSceneMode.Additive);
