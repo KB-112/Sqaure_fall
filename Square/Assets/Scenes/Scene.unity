@@ -1931,51 +1931,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &302554153
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 302554156}
-  - component: {fileID: 302554154}
-  m_Layer: 0
-  m_Name: Ads
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &302554154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302554153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2512700b2ddf194d99cf32e27ec7b28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _adUnitId: ca-app-pub-3940256099942544/1033173712
---- !u!4 &302554156
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302554153}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 131.80968, y: -19.024382, z: 1.235923}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318952865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,7 +2174,7 @@ MonoBehaviour:
   travelDuration: 1.5
   bar: {fileID: 719387738}
   rball: {fileID: 324129686}
-  Score_text: {fileID: 0}
+  Score_text: {fileID: 595256309}
   barPathSize: {fileID: 719387739}
   cameraMOvement: {fileID: 1474878211}
   destroyparticleSystem: {fileID: 1030541409}
@@ -14184,6 +14139,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 956190116}
+        m_TargetAssemblyTypeName: SoundSystem, Assembly-CSharp
+        m_MethodName: button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1543858213}
         m_TargetAssemblyTypeName: HomeButton, Assembly-CSharp
         m_MethodName: HomeBtn
@@ -15328,6 +15295,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 956190116}
+        m_TargetAssemblyTypeName: SoundSystem, Assembly-CSharp
+        m_MethodName: button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1694876335}
         m_TargetAssemblyTypeName: RelaodScreen, Assembly-CSharp
         m_MethodName: O
@@ -15550,7 +15529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552ca6b6a8f8d6348a27fc9d465af1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: e33ce73b618d639448c05d0d7361c097, type: 3}
   menuCanvas: {fileID: 2091655069}
   isPlaying: 0
 --- !u!82 &1707740575

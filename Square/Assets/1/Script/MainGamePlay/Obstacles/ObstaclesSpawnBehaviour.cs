@@ -25,21 +25,33 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
 
     private void Start()
     {
+       
+
+
         StartCoroutine(InstantiateGameObjects() );
-       
-       
+        
 
 
     }
-   
+
     private IEnumerator InstantiateGameObjects()
     {
+      
+       
+
         while (!redBall.stopball)
         {
 
             Vector3 spawnPosition = transform.position + spawnPositionOffset;
+            
             CollectiblesIterationController();
+           
             spawnedObject = Instantiate(gameObjects[currentIndex], transform.position, Quaternion.identity);
+
+          
+
+
+
             currentIndex = (currentIndex + 1) % gameObjects.Count;
 
             iterations++;
@@ -47,20 +59,24 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
             {
                 gameObjects.Shuffle();
             }
-          
-           
+            if (iterations < 2)
+            {
+                DontDestroyOnLoad(spawnedObject);
+            }
+
             yield return new WaitForSeconds(interval);
 
             
 
-                Destroy(spawnedObject,12);
+                Destroy(spawnedObject,10);
             
             
 
         }
+        
 
     }
-  
+
 
     public void CollectiblesIterationController()
     {

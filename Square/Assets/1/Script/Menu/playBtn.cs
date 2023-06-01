@@ -30,7 +30,11 @@ public class playBtn : MonoBehaviour
     
         button = GetComponent<Button>();
         originalScale = button.transform.localScale;
-    }
+        
+            
+        }
+
+    
     public void OnClick()
     { 
         Vector2 newScale = originalScale * decreaseFactor;
@@ -38,8 +42,9 @@ public class playBtn : MonoBehaviour
         
         StartCoroutine(ReturnButtonToOriginalScale());
         isPlaying = true;
-        SceneManager.LoadSceneAsync("Scene",LoadSceneMode.Additive);
         StartCoroutine(SceneUnload());
+        SceneManager.LoadSceneAsync("Scene",LoadSceneMode.Additive);
+        
     }
 
    
@@ -55,7 +60,7 @@ public class playBtn : MonoBehaviour
         {
             menuCanvas.MainGameCall();
         }
-        else
+       if(!isPlaying)
         {
             return;
         }

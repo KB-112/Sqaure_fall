@@ -17,34 +17,47 @@ public class AudioController : MonoBehaviour
     public AudioMixer audioMixer;
     float valuecheck;
     private void Start()
-    {
-        spriteRenderer = audios.GetComponent<Image>();
+    { 
+       
+            spriteRenderer = audios.GetComponent<Image>();
+        if (!PlayerPrefs.HasKey("AudioState") )
+        
+        
+        { isActivated1 = true; }
 
 
-        if (PlayerPrefs.HasKey("AudioState"))
-        {
-            float savedValue = PlayerPrefs.GetFloat("AudioState");
 
-            if (savedValue == -80f)
+
+       
+        if (PlayerPrefs.HasKey("AudioState") || !isActivated1)
             {
-                audioMixer.SetFloat("Vol", -80f);
-                spriteRenderer.sprite = soundOff;
-            }
+                float savedValue = PlayerPrefs.GetFloat("AudioState");
+
+                if (savedValue == -80f)
+                {
+                    audioMixer.SetFloat("Vol", -80f);
+                    spriteRenderer.sprite = soundOff;
+
+                }
+
+                else
+                {
+                    audioMixer.SetFloat("Vol", 0f);
+                    spriteRenderer.sprite = soundOn;
+                }
+
+        }
             else
             {
                 audioMixer.SetFloat("Vol", 0f);
                 spriteRenderer.sprite = soundOn;
             }
-        }
-        else
-        {
-            audioMixer.SetFloat("Vol", 0f);
-            spriteRenderer.sprite = soundOn;
-        }
-
+           
+        
+       
 
     }
-    
+
 
     public void SoundPanelButton()
     {           
@@ -53,7 +66,9 @@ public class AudioController : MonoBehaviour
         {
             audioMixer.SetFloat("Vol", 0f);
             spriteRenderer.sprite = soundOn;
+           
             PlayerPrefs.SetFloat("AudioState", 0);
+           
         }
         if (!isActivated1 )
         {
@@ -62,9 +77,10 @@ public class AudioController : MonoBehaviour
             spriteRenderer.sprite =soundOff;
             PlayerPrefs.SetFloat("AudioState",-80);
 
-
-
+            
         }
+        
+       
 
         PlayerPrefs.Save();
     }
