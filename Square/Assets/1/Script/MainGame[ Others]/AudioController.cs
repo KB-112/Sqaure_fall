@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class AudioController : MonoBehaviour
 {
 
-   
+
     private bool isActivated1 = false;
     public GameObject audios;
     public Sprite soundOn;
@@ -16,72 +16,49 @@ public class AudioController : MonoBehaviour
 
     public AudioMixer audioMixer;
     float valuecheck;
+
     private void Start()
-    { 
-       
-            spriteRenderer = audios.GetComponent<Image>();
-        if (!PlayerPrefs.HasKey("AudioState") )
-        
-        
-        { isActivated1 = true; }
+    {
+        spriteRenderer = audios.GetComponent<Image>();
 
-
-
-
-       
-        if (PlayerPrefs.HasKey("AudioState") || !isActivated1)
-            {
-                float savedValue = PlayerPrefs.GetFloat("AudioState");
-
-                if (savedValue == -80f)
-                {
-                    audioMixer.SetFloat("Vol", -80f);
-                    spriteRenderer.sprite = soundOff;
-
-                }
-
-                else
-                {
-                    audioMixer.SetFloat("Vol", 0f);
-                    spriteRenderer.sprite = soundOn;
-                }
-
+        // load the state of the sound button on scene reload
+        if (PlayerPrefs.HasKey("SoundOn"))
+        {
+            isActivated1 = PlayerPrefs.GetInt("SoundOn") == 1;
         }
-            else
-            {
-                audioMixer.SetFloat("Vol", 0f);
-                spriteRenderer.sprite = soundOn;
-            }
-           
-        
-       
 
-    }
-
-
-    public void SoundPanelButton()
-    {           
-        isActivated1 = !isActivated1;
-        if (isActivated1 )
+        if (isActivated1)
         {
             audioMixer.SetFloat("Vol", 0f);
             spriteRenderer.sprite = soundOn;
-           
-            PlayerPrefs.SetFloat("AudioState", 0);
-           
         }
-        if (!isActivated1 )
+        else
         {
-            
             audioMixer.SetFloat("Vol", -80f);
-            spriteRenderer.sprite =soundOff;
-            PlayerPrefs.SetFloat("AudioState",-80);
-
-            
+            spriteRenderer.sprite = soundOff;
         }
-        
-       
+    }
 
+    public void SoundPanelButton()
+    {
+        isActivated1 = !isActivated1;
+        if (isActivated1)
+        {
+            audioMixer.SetFloat("Vol", 0f);
+            spriteRenderer.sprite = soundOn;
+        }
+        else
+        {
+            audioMixer.SetFloat("Vol", -80f);
+            spriteRenderer.sprite = soundOff;
+        }
+
+        // save the state of the sound button
+        PlayerPrefs.SetInt("SoundOn", isActivated1 ? 1 : 0);
         PlayerPrefs.Save();
     }
+
+
+
+
 }
