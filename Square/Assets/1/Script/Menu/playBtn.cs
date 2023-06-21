@@ -30,8 +30,8 @@ public class playBtn : MonoBehaviour
     
         button = GetComponent<Button>();
         originalScale = button.transform.localScale;
-        
-            
+
+       
         }
 
     
@@ -42,6 +42,7 @@ public class playBtn : MonoBehaviour
         
         StartCoroutine(ReturnButtonToOriginalScale());
         isPlaying = true;
+        BannerAds.instance.DestroyAd();
         StartCoroutine(SceneUnload());
         SceneManager.LoadSceneAsync("Scene",LoadSceneMode.Additive);
         

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ObstaclesSpawnBehaviour : MonoBehaviour
 {
     public List<GameObject> gameObjects;
@@ -23,17 +23,24 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
 
     GameObject obj;
 
+    public Button spawnButton;
+
     private void Start()
     {
-       
 
+        //spawnButton.onClick.AddListener(Objspawn);
 
-        StartCoroutine(InstantiateGameObjects() );
-        
+      // StartCoroutine(InstantiateGameObjects());
 
 
     }
 
+
+    public void Objspawn()
+    {
+        StartCoroutine(InstantiateGameObjects());
+
+    }
     private IEnumerator InstantiateGameObjects()
     {
       

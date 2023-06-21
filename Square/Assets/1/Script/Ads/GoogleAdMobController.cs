@@ -16,6 +16,7 @@ public class GoogleAdMobController : MonoBehaviour
         if (instance != null & instance != this)
         {
             Destroy(this.gameObject);
+
         }
         else
         {
