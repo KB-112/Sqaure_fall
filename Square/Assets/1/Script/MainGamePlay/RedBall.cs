@@ -219,8 +219,8 @@ public class RedBall : MonoBehaviour
                 
                  
                 destroyparticleSystem.UnpauseParticleSystem();
-
-
+                bullett_ribbon[0].Stop();
+                bullett_ribbon[1].Stop();
 
                 DeathCounter();
                 
