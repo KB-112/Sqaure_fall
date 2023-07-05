@@ -46,7 +46,7 @@ public class BannerAds : MonoBehaviour
         {
             DestroyAd();
         }      
-        _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Bottom);
+        _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Top);
     }
     public void LoadAd()
     {
