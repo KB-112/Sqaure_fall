@@ -9,12 +9,14 @@ public class AdsController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(A());
+        
     }
 
-    IEnumerator A()
+  IEnumerator A()
     {
-        yield return null;
-      BannerAds.instance.LoadAd();
+        
+            yield return null;
+        BannerAds.instance.LoadAd();
     }
 
 }

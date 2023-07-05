@@ -248,7 +248,7 @@ public class RedBall : MonoBehaviour
     IEnumerator A()
     {
         yield return null;
-       GoogleAdMobController.instance.ShowAd();
+       InterstialAdss.instance.ShowAd();
     }
 
 

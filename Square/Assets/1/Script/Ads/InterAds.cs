@@ -5,10 +5,10 @@ using GoogleMobileAds.Api;
 namespace GoogleMobileAds.Sample
 {
     /// <summary>
-    /// Demonstrates how to use Google Mobile Ads rewarded ads.
+    /// Demonstrates how to use Google Mobile Ads interstitial ads.
     /// </summary>
-    [AddComponentMenu("GoogleMobileAds/Samples/RewardedAdController")]
-    public class RewardedAds : MonoBehaviour
+    [AddComponentMenu("GoogleMobileAds/Samples/InterstitialAdController")]
+    public class InterAds: MonoBehaviour
     {
         /// <summary>
         /// UI element activated when an ad is ready to show.
@@ -17,14 +17,14 @@ namespace GoogleMobileAds.Sample
 
         // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
-        private const string _adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        private const string _adUnitId = "ca-app-pub-3940256099942544/1033173712";
 #elif UNITY_IPHONE
-        private const string _adUnitId = "ca-app-pub-3940256099942544/1712485313";
+        private const string _adUnitId = "ca-app-pub-3940256099942544/4411468910";
 #else
         private const string _adUnitId = "unused";
 #endif
-        public static RewardedAds instance;
-      [HideInInspector]  public RewardedAd _rewardedAd;
+        public static InterAds instance;
+   [HideInInspector]     public InterstitialAd _interstitialAd;
 
         /// <summary>
         /// Loads the ad.
@@ -32,41 +32,42 @@ namespace GoogleMobileAds.Sample
         public void LoadAd()
         {
             // Clean up the old ad before loading a new one.
-            if (_rewardedAd != null)
+            if (_interstitialAd != null)
             {
                 DestroyAd();
             }
 
-            Debug.Log("Loading rewarded ad.");
+            Debug.Log("Loading interstitial ad.");
 
             // Create our request used to load the ad.
             var adRequest = new AdRequest();
 
             // Send the request to load the ad.
-            RewardedAd.Load(_adUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
+            InterstitialAd.Load(_adUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
             {
                 // If the operation failed with a reason.
                 if (error != null)
                 {
-                    Debug.LogError("Rewarded ad failed to load an ad with error : " + error);
+                    Debug.LogError("Interstitial ad failed to load an ad with error : " + error);
                     return;
                 }
                 // If the operation failed for unknown reasons.
                 // This is an unexpected error, please report this bug if it happens.
                 if (ad == null)
                 {
-                    Debug.LogError("Unexpected error: Rewarded load event fired with null ad and null error.");
+                    Debug.LogError("Unexpected error: Interstitial load event fired with null ad and null error.");
                     return;
                 }
                 // The operation completed successfully.
-                Debug.Log("Rewarded ad loaded with response : " + ad.GetResponseInfo());
-                _rewardedAd = ad;
+                Debug.Log("Interstitial ad loaded with response : " + ad.GetResponseInfo());
+                _interstitialAd = ad;
                 // Register to ad events to extend functionality.
                 RegisterEventHandlers(ad);
                 // Inform the UI that the ad is ready.
                 AdLoadedStatus?.SetActive(true);
             });
         }
+
         public void Start()
         {
 
@@ -86,24 +87,23 @@ namespace GoogleMobileAds.Sample
 
 
         }
+
+
+
+
         /// <summary>
         /// Shows the ad.
         /// </summary>
         public void ShowAd()
         {
-            if (_rewardedAd != null && _rewardedAd.CanShowAd())
+            if (_interstitialAd != null && _interstitialAd.CanShowAd())
             {
-                Debug.Log("Showing rewarded ad.");
-                _rewardedAd.Show((Reward reward) =>
-                {
-                    Debug.Log(String.Format("Rewarded ad granted a reward: {0} {1}",
-                                            reward.Amount,
-                                            reward.Type));
-                });
+                Debug.Log("Showing interstitial ad.");
+                _interstitialAd.Show();
             }
             else
             {
-                Debug.LogError("Rewarded ad is not ready yet.");
+                Debug.LogError("Interstitial ad is not ready yet.");
             }
 
             // Inform the UI that the ad is not ready.
@@ -115,11 +115,11 @@ namespace GoogleMobileAds.Sample
         /// </summary>
         public void DestroyAd()
         {
-            if (_rewardedAd != null)
+            if (_interstitialAd != null)
             {
-                Debug.Log("Destroying rewarded ad.");
-                _rewardedAd.Destroy();
-                _rewardedAd = null;
+                Debug.Log("Destroying interstitial ad.");
+                _interstitialAd.Destroy();
+                _interstitialAd = null;
             }
 
             // Inform the UI that the ad is not ready.
@@ -131,47 +131,47 @@ namespace GoogleMobileAds.Sample
         /// </summary>
         public void LogResponseInfo()
         {
-            if (_rewardedAd != null)
+            if (_interstitialAd != null)
             {
-                var responseInfo = _rewardedAd.GetResponseInfo();
+                var responseInfo = _interstitialAd.GetResponseInfo();
                 UnityEngine.Debug.Log(responseInfo);
             }
         }
 
-        private void RegisterEventHandlers(RewardedAd ad)
+        private void RegisterEventHandlers(InterstitialAd ad)
         {
             // Raised when the ad is estimated to have earned money.
             ad.OnAdPaid += (AdValue adValue) =>
             {
-                Debug.Log(String.Format("Rewarded ad paid {0} {1}.",
+                Debug.Log(String.Format("Interstitial ad paid {0} {1}.",
                     adValue.Value,
                     adValue.CurrencyCode));
             };
             // Raised when an impression is recorded for an ad.
             ad.OnAdImpressionRecorded += () =>
             {
-                Debug.Log("Rewarded ad recorded an impression.");
+                Debug.Log("Interstitial ad recorded an impression.");
             };
             // Raised when a click is recorded for an ad.
             ad.OnAdClicked += () =>
             {
-                Debug.Log("Rewarded ad was clicked.");
+                Debug.Log("Interstitial ad was clicked.");
             };
-            // Raised when the ad opened full screen content.
+            // Raised when an ad opened full screen content.
             ad.OnAdFullScreenContentOpened += () =>
             {
-                Debug.Log("Rewarded ad full screen content opened.");
+                Debug.Log("Interstitial ad full screen content opened.");
             };
             // Raised when the ad closed full screen content.
             ad.OnAdFullScreenContentClosed += () =>
             {
                 LoadAd();
-                Debug.Log("Rewarded ad full screen content closed.");
+                Debug.Log("Interstitial ad full screen content closed.");
             };
             // Raised when the ad failed to open full screen content.
             ad.OnAdFullScreenContentFailed += (AdError error) =>
             {
-                Debug.LogError("Rewarded ad failed to open full screen content with error : "
+                Debug.LogError("Interstitial ad failed to open full screen content with error : "
                     + error);
             };
         }

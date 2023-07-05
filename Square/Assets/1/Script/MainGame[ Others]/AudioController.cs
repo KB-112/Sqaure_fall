@@ -26,6 +26,10 @@ public class AudioController : MonoBehaviour
         {
             isActivated1 = PlayerPrefs.GetInt("SoundOn") == 1;
         }
+        else
+        {
+            isActivated1 = true;
+        }
 
         if (isActivated1)
         {

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using GoogleMobileAds;
 using GoogleMobileAds.Api;
 
-public class GoogleAdMobController : MonoBehaviour
+public class InterstialAdss : MonoBehaviour
 {
     public string _adUnitId;
-    public static GoogleAdMobController instance;
-    InterstitialAd interstitialAd;
+    public static InterstialAdss instance;
+   [HideInInspector]public InterstitialAd interstitialAd;
     public void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+       
 
         if (instance != null & instance != this)
         {
@@ -25,8 +25,14 @@ public class GoogleAdMobController : MonoBehaviour
 
         MobileAds.Initialize((InitializationStatus initStatus) =>
           {
-              LoadInterstitialAd();
+             Debug.Assert(initStatus != null);
+              if (initStatus != null) { LoadInterstitialAd(); }
+
+
+              
           });
+
+       
     }
 
     public void LoadInterstitialAd()
@@ -113,7 +119,9 @@ public class GoogleAdMobController : MonoBehaviour
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
 
-            LoadInterstitialAd();
+          
         };
+
+        
     }
 }

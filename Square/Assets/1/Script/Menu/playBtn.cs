@@ -22,12 +22,14 @@ public class playBtn : MonoBehaviour
 
   public bool isPlaying = false;
 
- 
+   
 
     public void Start()
     {
+      
+          
+        
 
-    
         button = GetComponent<Button>();
         originalScale = button.transform.localScale;
 
