@@ -10,6 +10,9 @@ public class MultipleAds : MonoBehaviour
 {
     public Button MixAdsBtn;
 
+    
+
+
     public void OnButtonClick()
     {
         StartCoroutine(ShowAds());
@@ -20,25 +23,29 @@ public class MultipleAds : MonoBehaviour
         MixAdsBtn.onClick.AddListener(OnButtonClick);
     }
 
+    /* IEnumerator ShowAds()
+     {
+         if (RewardedAds.instance._rewardedAd != null && RewardedAds.instance._rewardedAd.CanShowAd())
+         {
+             RewardedAds.instance.ShowAd();
+         }
+         else
+         {
+             InterAds.instance.ShowAd();
+             while (InterAds.instance._interstitialAd != null) 
+             {
+                 yield return null;
+             }
+             if (RewardedAds.instance._rewardedAd != null && RewardedAds.instance._rewardedAd.CanShowAd())
+             {
+                 RewardedAds.instance.ShowAd();
+             }
+         }
+     }*/
     IEnumerator ShowAds()
     {
-        if (RewardedAds.instance._rewardedAd != null && RewardedAds.instance._rewardedAd.CanShowAd())
-        {
-            RewardedAds.instance.ShowAd();
-        }
-        else
-        {
-            InterAds.instance.ShowAd();
-            while (InterAds.instance._interstitialAd != null) 
-            {
-                yield return null;
-            }
-            if (RewardedAds.instance._rewardedAd != null && RewardedAds.instance._rewardedAd.CanShowAd())
-            {
-                RewardedAds.instance.ShowAd();
-            }
-        }
+        yield return null;
+        RewardedInterstitialAdController.instance.ShowAd();
     }
-
 
 }

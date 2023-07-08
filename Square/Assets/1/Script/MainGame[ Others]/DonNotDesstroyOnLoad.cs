@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class DonNotDesstroyOnLoad : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class DonNotDesstroyOnLoad : MonoBehaviour
 
     public GameObject[] LoadedObj;
 
-    void Start()
+    void Awake()
     {
         for(int i = 0; i < LoadedObj.Length; i++)
         {

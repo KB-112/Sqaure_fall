@@ -4,34 +4,35 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.ComponentModel;
-using UnityEditor;
 
-public class ReadOnlyInspectorAttribute : PropertyAttribute { }
-
-[CustomPropertyDrawer(typeof(ReadOnlyInspectorAttribute))]
-public class ReadOnlyInspectorDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        GUI.enabled = false;
-        EditorGUI.PropertyField(position, property, label, true);
-        GUI.enabled = true;
-    }
-}
 public class Contractor : MonoBehaviour
 {
     // Public variables
-    public int Totalcontractor;
+    [HideInInspector] public int Totalcontractor;
     public int Newcontractorvalue;
     public int contractorReductionPerplay;
-    [SerializeField]
-    [ReadOnlyInspector]   
-    public int playButtonPressCount = 1;
+    [SerializeField][ReadOnlyInspector] public int playButtonPressCount = 1;
     public TextMeshProUGUI scoreText;
 
     // PlayerPrefs keys
     private const string PressedPlayButtonKey = "PressedPlayButton";
     private const string TotalContractorKey = "TotalContractor";
+    public Button PlayButton;
+    [SerializeField] public int adcoin;
+    public Button WatchAdsButton;
+    private const string adcoinKey = "adCoin";
+   
+
+    int storecoins;
+    bool adsbtn = false;
+
+
+    public int Quantacoins;
+    public TextMeshProUGUI QuantaText; 
+
+
+
+
 
     private void Start()
     {
@@ -46,21 +47,39 @@ public class Contractor : MonoBehaviour
             // Load the saved values from PlayerPrefs
             playButtonPressCount = PlayerPrefs.GetInt(PressedPlayButtonKey, playButtonPressCount);
             Totalcontractor = PlayerPrefs.GetInt(TotalContractorKey, Totalcontractor);
+            adcoin = PlayerPrefs.GetInt(adcoinKey, adcoin);
+           
+
+            WatchAdsButton.onClick.AddListener(watchads);
+            if (adsbtn)
+            {
+                Debug.Log("Ads button Pressed");
+                storecoins = adcoin;
+                Totalcontractor = Newcontractorvalue + storecoins;
+               
+            }
 
             // Reduce Totalcontractor based on contractorReductionPerplay
             Totalcontractor -= contractorReductionPerplay;
 
             // Check if Totalcontractor is zero or negative
-            if (Totalcontractor <= 0)
+            if (Totalcontractor >= 0)
             {
-                // Set Totalcontractor to Newcontractorvalue
-                Newcontractorvalue = 50;
-                Totalcontractor = Newcontractorvalue;
+                PlayButton.enabled = true;
+                
+            }
+            else
+            {
+                PlayButton.enabled = false;
+
             }
         }
 
         // Update the score text
         scoreText.text = Totalcontractor.ToString();
+
+        Quantacoins = adcoin * 5;
+        QuantaText.text = Quantacoins.ToString();
     }
 
     public void PlayBtnCounter()
@@ -71,12 +90,24 @@ public class Contractor : MonoBehaviour
         // Save the play button press count and Totalcontractor to PlayerPrefs
         PlayerPrefs.SetInt(PressedPlayButtonKey, playButtonPressCount);
         PlayerPrefs.SetInt(TotalContractorKey, Totalcontractor);
+        PlayerPrefs.SetInt(adcoinKey, adcoin);
+     
 
-        // Reduce Totalcontractor based on contractorReductionPerplay
-        Totalcontractor -= contractorReductionPerplay;
+        
+       
 
         // Save the changes to PlayerPrefs
         PlayerPrefs.Save();
     }
-}
 
+    public void watchads()
+    {
+        adsbtn = true;
+        Totalcontractor += adcoin; // Increase Totalcontractor by the value of adcoin
+        scoreText.text = Totalcontractor.ToString(); // Update the score text
+
+        Quantacoins = adcoin * 5; // Calculate the new value for QuantaCoins
+        QuantaText.text = Quantacoins.ToString(); // Update the QuantaText
+    }
+
+}
