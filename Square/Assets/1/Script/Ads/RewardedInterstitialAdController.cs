@@ -41,7 +41,7 @@ namespace GoogleMobileAds.Sample
                 instance = this;
                 LoadAd();
             }
-
+           
 
         }
 

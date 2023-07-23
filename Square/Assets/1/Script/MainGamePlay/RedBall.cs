@@ -48,7 +48,7 @@ public class RedBall : MonoBehaviour
     public float targetDistance = 0f;
     bool shouldTranslate = true;
     public Button startButton;
-    public GameObject taptoshoot;
+    public  GameObject taptoshoot;
     public GameObject PLayer;
     public ParticleSystem[] bullett_ribbon;
    
@@ -195,7 +195,7 @@ public class RedBall : MonoBehaviour
         {
 
             Debug.Log("destroy happen");
-
+            
 
             soundController.explode();                                                                              //Ball all  object collision  Controller
             if (collision.gameObject)

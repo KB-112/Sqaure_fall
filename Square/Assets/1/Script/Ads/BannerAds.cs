@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds;
 using System;
+using UnityEngine.SceneManagement;
 
 public class BannerAds : MonoBehaviour
 {
-  [SerializeField]  private string _adUnitId ;
+    private const string _adUnitId = "ca-app-pub-3940256099942544/6300978111";
     BannerView _bannerView;
 
   public  static BannerAds instance;
@@ -45,8 +46,18 @@ public class BannerAds : MonoBehaviour
         if (_bannerView != null)
         {
             DestroyAd();
-        }      
-        _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Top);
+        }
+        
+            
+               
+            
+           
+        
+        
+        
+            _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Top);
+        
+
     }
     public void LoadAd()
     {

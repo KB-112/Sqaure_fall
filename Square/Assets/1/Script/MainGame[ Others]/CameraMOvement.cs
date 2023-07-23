@@ -29,7 +29,7 @@ public class CameraMOvement : MonoBehaviour
         if (ball_collision_successful)
          {
             highscoreText.SetActive (true);
-            float step = speed * Time.unscaledDeltaTime;
+            float step = speed * Time.deltaTime;
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, step);
             Restart_panel[0].SetActive(true);
             Restart_panel[1].SetActive(true);
