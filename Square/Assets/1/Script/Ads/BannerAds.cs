@@ -9,63 +9,56 @@ using UnityEngine.SceneManagement;
 public class BannerAds : MonoBehaviour
 {
     private const string _adUnitId = "ca-app-pub-3940256099942544/6300978111";
-    BannerView _bannerView;
+    private static BannerAds _instance;
+  public static BannerView _bannerView;
 
-  public  static BannerAds instance;
-    public void Start()
+  
+
+    public static BannerAds Instance
     {
-      
-       
+        get { return _instance; }
+    }
 
-      
-        if (instance != null & instance != this)
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
-
-        }
-        else
-        {
-            instance = this;
+            return;
         }
 
-        // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize((InitializationStatus initStatus) =>
-        {
-
-
-            Debug.Assert(initStatus != null);
-           
-        });
-        CreateBannerView();
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
+  
     public void CreateBannerView()
     {
-        Debug.Log("Creating banner view");
-
-        // If we already have a banner, destroy the old one.
         if (_bannerView != null)
         {
             DestroyAd();
         }
-        
-            
-               
-            
-           
-        
-        
-        
-            _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Top);
-        
+        Debug.Log("Creating banner view");
 
+       
+                _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Bottom);
+
+      
     }
+
+   
+
+
     public void LoadAd()
     {
         // create an instance of a banner view first.
         if (_bannerView == null)
         {
+
+
             CreateBannerView();
         }
+
         // create our request used to load the ad.
         var adRequest = new AdRequest();
         adRequest.Keywords.Add("unity-admob-sample");
@@ -73,10 +66,7 @@ public class BannerAds : MonoBehaviour
         // send the request to load the ad.
         Debug.Log("Loading banner ad.");
         _bannerView.LoadAd(adRequest);
-
-       
     }
-
 
     private void ListenToAdEvents()
     {

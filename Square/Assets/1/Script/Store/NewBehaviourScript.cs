@@ -17,7 +17,7 @@ public class NewBehaviourScript : MonoBehaviour
     public Button ntn;
     private bool isApplicationPaused = false;
 
-    public Button RevivalBtn;
+    [HideInInspector] public static bool doublescore =false;
     public void BtnPress()
     {
         PlayerPrefs.SetInt(btn, 1);
@@ -76,16 +76,19 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 elapsedTime -= TimeSpan.FromSeconds(1);
                 UpdateTimerText();
+                doublescore = true;
             }
             yield return new WaitForSeconds(1f);
         }
 
         StopTimer();
+        doublescore = false;
     }
 
     private void StopTimer()
     {
         isTimerRunning = false;
+      
         UpdateTimerText(); // Ensure the timer text is updated when the timer stops
     }
 
@@ -95,7 +98,7 @@ public class NewBehaviourScript : MonoBehaviour
         startTime = !string.IsNullOrEmpty(startTimeString) ? DateTime.Parse(startTimeString) : DateTime.Now;
 
         string elapsedTimeString = PlayerPrefs.GetString("elapsedTime", "");
-        elapsedTime = !string.IsNullOrEmpty(elapsedTimeString) ? TimeSpan.Parse(elapsedTimeString) : TimeSpan.FromSeconds(50);
+        elapsedTime = !string.IsNullOrEmpty(elapsedTimeString) ? TimeSpan.Parse(elapsedTimeString) : TimeSpan.FromMinutes(5);
 
         isTimerRunning = PlayerPrefs.GetInt("isTimerRunning", 0) == 1;
     }
@@ -128,7 +131,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
         else
         {
-            elapsedTime = TimeSpan.FromSeconds(50);
+            elapsedTime = TimeSpan.FromMinutes(5);
         }
 
         startTime = DateTime.Now;

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using GoogleMobileAds.Api;
 
 
 public class RedBall : MonoBehaviour
@@ -51,7 +52,9 @@ public class RedBall : MonoBehaviour
     public  GameObject taptoshoot;
     public GameObject PLayer;
     public ParticleSystem[] bullett_ribbon;
-   
+
+    public PauseGame Pgame;
+
     void Start()
     {
         deathCount = PlayerPrefs.GetInt("DeathCount", deathCount);
@@ -193,10 +196,20 @@ public class RedBall : MonoBehaviour
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
         {
-
+           
             Debug.Log("destroy happen");
-            
+         //   DeathCounter();
+            Time.timeScale = 0; 
+            Pgame.PauseScreen();
 
+            
+            
+               
+            
+               
+
+
+            
             soundController.explode();                                                                              //Ball all  object collision  Controller
             if (collision.gameObject)
             {
@@ -222,7 +235,7 @@ public class RedBall : MonoBehaviour
                 bullett_ribbon[0].Stop();
                 bullett_ribbon[1].Stop();
 
-                DeathCounter();
+              
                 
 
                 Debug.Log("DeathCount" + deathCount);
@@ -245,29 +258,29 @@ public class RedBall : MonoBehaviour
 
     }
 
-    IEnumerator A()
-    {
-        yield return null;
-       InterstialAdss.instance.ShowAd();
-    }
+   
 
 
-    void DeathCounter()
-    {
-        deathCount++;
-
-        PlayerPrefs.SetInt("DeathCount", deathCount);
-        PlayerPrefs.Save();
-        
-        if (deathCount % noOfTimesBallSpawnAfterDeath == 0)
-        {
-
-
-
-            StartCoroutine(A());
-        }
-    }
-
-
+  
 
 }
+/*void DeathCounter()
+{
+    deathCount++;
+
+    PlayerPrefs.SetInt("DeathCount", deathCount);
+    PlayerPrefs.Save();
+
+    if (deathCount % noOfTimesBallSpawnAfterDeath == 0)
+    {
+
+
+
+        StartCoroutine(A());
+    }
+    else
+    {
+        Pgame.PauseScreen();
+    }
+}*/
+

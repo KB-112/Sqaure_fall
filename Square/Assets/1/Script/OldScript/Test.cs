@@ -133,7 +133,7 @@ public class Test: MonoBehaviour
        
         if (collision.gameObject.layer == LayerMask.NameToLayer("redSquare"))
         {
-            score.UpdateScore();
+          //  score.UpdateScore();
             Destroy(collision.gameObject);
 
 

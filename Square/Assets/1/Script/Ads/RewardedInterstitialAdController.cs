@@ -27,6 +27,8 @@ namespace GoogleMobileAds.Sample
         private RewardedInterstitialAd _rewardedInterstitialAd;
         public static RewardedInterstitialAdController instance;
 
+        public static bool Quantacoinsreward = false;
+
         public void Start()
         {
 
@@ -102,6 +104,7 @@ namespace GoogleMobileAds.Sample
             {
                 _rewardedInterstitialAd.Show((Reward reward) =>
                 {
+                    Quantacoinsreward = true;
                     Debug.Log("Rewarded interstitial ad rewarded : " + reward.Amount);
                 });
             }
@@ -171,6 +174,7 @@ namespace GoogleMobileAds.Sample
             {
                 LoadAd();
                 Debug.Log("Rewarded interstitial ad full screen content closed.");
+              
             };
             // Raised when the ad failed to open full screen content.
             ad.OnAdFullScreenContentFailed += (AdError error) =>

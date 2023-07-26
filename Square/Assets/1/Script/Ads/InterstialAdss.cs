@@ -8,7 +8,7 @@ public class InterstialAdss : MonoBehaviour
 {
     public string _adUnitId;
     public static InterstialAdss instance;
-   [HideInInspector]public InterstitialAd interstitialAd;
+   [HideInInspector]public static InterstitialAd interstitialAd;
     public void Start()
     {
        
@@ -23,16 +23,9 @@ public class InterstialAdss : MonoBehaviour
             instance = this;
         }
 
-        MobileAds.Initialize((InitializationStatus initStatus) =>
-          {
-             Debug.Assert(initStatus != null);
-              if (initStatus != null) { LoadInterstitialAd(); }
+        
+        LoadInterstitialAd();
 
-
-              
-          });
-
-       
     }
 
     public void LoadInterstitialAd()

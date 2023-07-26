@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MenuToggle : MonoBehaviour
 {
@@ -12,16 +13,18 @@ public class MenuToggle : MonoBehaviour
 
     [SerializeField] private GameObject WheelSpinnerBg;
     [SerializeField] private GameObject TapToskip;
+    [SerializeField] private GameObject BackButton;
 
 
     // Cache the button references
+    [SerializeField] private Button FirstTimeWatchAdsBtn;
     [SerializeField] private Button WatchAdsBtn;
     [SerializeField] private Button CloseAdsBtn;
     [SerializeField] private Button TimeSkipAdsBtn;
     [SerializeField] private Button OkayBtn;
 
     [SerializeField] private Button SpinWheelerBtn;
-    [SerializeField] private Button CloseWheelerBtn;
+    [SerializeField] private Button[] CloseWheelerBtn;
     [SerializeField] private Button SpinNowBtn;
 
 
@@ -29,6 +32,10 @@ public class MenuToggle : MonoBehaviour
     [SerializeField] public float wheelerTImeClosed;
 
     bool startWheelerTimer;
+
+  
+
+
 
 
     private void Awake()
@@ -38,14 +45,17 @@ public class MenuToggle : MonoBehaviour
     private void Start()
     {
         // Add listeners to buttons
+        FirstTimeWatchAdsBtn.onClick.AddListener(ShowWatchAdsWindow);
         WatchAdsBtn.onClick.AddListener(ShowWatchAdsWindow);
         TimeSkipAdsBtn.onClick.AddListener(ShowTimeSkipWindow);
         CloseAdsBtn.onClick.AddListener(CloseWatchAdsWindow);
         OkayBtn.onClick.AddListener(CloseTimeSkipWindow);
         SpinWheelerBtn.onClick.AddListener(SpinWheelerActivation);
-        CloseWheelerBtn.onClick.AddListener(CloseWheeler);
+        CloseWheelerBtn[0].onClick.AddListener(CloseWheeler);
+        CloseWheelerBtn[1].onClick.AddListener(CloseWheeler);
         SpinNowBtn.onClick.AddListener(SpinHere);
 
+       
     }
 
     public void ShowWatchAdsWindow()
@@ -86,7 +96,9 @@ public class MenuToggle : MonoBehaviour
     }
     IEnumerator ExitWheeler()
     {
+        BackButton.SetActive(false);
         yield return new WaitForSeconds(wheelerTImeClosed);
+        
         TapToskip.SetActive(true);
     }
 

@@ -9,18 +9,28 @@ public class WatchAds : MonoBehaviour
     public float timerSpeed = 1f; // Speed at which the timer runs
     public Image timerImage; // Reference to the UI filled horizontal image
     public Button skipButton; // Reference to the skip button
-
-   [HideInInspector] public bool isTimerRunning = true;
-
+    public Button Yesbtn;
+    [HideInInspector] public bool isTimerRunning = true;
+    private float intialfillAmount;
+    private float intialtime;
     private void Start()
     {
         // Set the initial fill amount of the image to 1 (full)
         timerImage.fillAmount = 1f;
-
+        intialfillAmount = timerImage.fillAmount;
+        intialtime = startTime;
         // Attach the skip function to the button's onClick event
         skipButton.onClick.AddListener(SkipTimer);
+        Yesbtn.onClick.AddListener(yesClickBtn);
 
-        // Start the timer coroutine
+        StartCoroutine(RunTimer());
+    }
+
+   public void yesClickBtn()
+    {
+        timerImage.fillAmount = intialfillAmount;
+        startTime = intialtime;
+        isTimerRunning = true;
         StartCoroutine(RunTimer());
     }
 
@@ -35,11 +45,11 @@ public class WatchAds : MonoBehaviour
                 currentTime -= Time.deltaTime * timerSpeed;
                 timerImage.fillAmount = currentTime / startTime;
             }
+
             yield return null;
         }
        
-        // Timer has reached zero
-        Debug.Log("Timer has ended!");
+        
     }
 
     public void SkipTimer()
@@ -47,7 +57,12 @@ public class WatchAds : MonoBehaviour
         isTimerRunning = false;
         timerImage.fillAmount = 0f;
         Debug.Log("Timer has been skipped!");
+       
+
+
     }
+
+    
 }
 
 
