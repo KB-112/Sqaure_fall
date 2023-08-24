@@ -5,35 +5,41 @@ using UnityEngine.UI;
 public class BeginingScript : MonoBehaviour
 {
     public GameObject[] obj;
-
-
     int pressfirsttime;
-
     public Button pressbtn;
-
     public CurrencyManager Cm;
 
     public void Start()
     {
-        pressfirsttime = PlayerPrefs.GetInt("FirstTime", pressfirsttime);
-        if (PlayerPrefs.HasKey("FirstTime") && pressfirsttime == 1)
-        {
+
+        PlayerPrefs.GetInt("FirstTime");
+
+
+        if (PlayerPrefs.HasKey("FirstTime") )
+        { 
             for (int i = 0; i < obj.Length; i++)
             {
                 obj[i].SetActive(false);
             }
-        }
-        pressbtn.onClick.AddListener(IntialStage);
+            // Add the logic for initializing the game here.
+            Cm.totalContractorScore = 50;
 
+           
+
+            
+        }
+
+       
+        pressbtn.onClick.AddListener(IntialStage);
     }
+
     void IntialStage()
     {
-        pressfirsttime++;
+    
         
-        PlayerPrefs.SetInt("FirstTime", pressfirsttime);
-        PlayerPrefs.Save();
+        
 
-        if (pressfirsttime ==1)
+        if (pressfirsttime ==0)
         {
             Cm.totalContractorScore = 50;
 
@@ -44,8 +50,11 @@ public class BeginingScript : MonoBehaviour
                 obj[i].SetActive(false);
             }
 
+            pressfirsttime++;
+            Debug.Log("pressfirsttime on IntialStage: " + pressfirsttime);
 
-
+            PlayerPrefs.SetInt("FirstTime", pressfirsttime);
+            PlayerPrefs.Save();
         }
 
     }

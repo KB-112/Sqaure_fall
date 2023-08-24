@@ -344,7 +344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &45632494
 Transform:
   m_ObjectHideFlags: 0
@@ -2176,6 +2176,7 @@ MonoBehaviour:
   rSquare: {fileID: 1578907058}
   score: {fileID: 361601340}
   soundController: {fileID: 956190116}
+  deathCount: 0
   noOfTimesBallSpawnAfterDeath: 2
   speed: 3
   distance: 0
@@ -2187,6 +2188,9 @@ MonoBehaviour:
   - {fileID: 1004911737}
   - {fileID: 1871723017}
   Pgame: {fileID: 985810919}
+  buyrevival: {fileID: 31133301}
+  pgame: {fileID: 985810919}
+  Quitbtn: {fileID: 1126945648}
 --- !u!114 &324129695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,6 +2490,7 @@ MonoBehaviour:
   scoreText: {fileID: 595256311}
   bestScore: {fileID: 47956931}
   score: 0
+  totalScore: 0
 --- !u!1 &361915829
 GameObject:
   m_ObjectHideFlags: 0
@@ -10918,6 +10923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 985810920}
   - component: {fileID: 985810919}
+  - component: {fileID: 985810921}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -10943,6 +10949,9 @@ MonoBehaviour:
   timerImage: {fileID: 1617658652}
   isTimerRunning: 0
   Quitbtn: {fileID: 1126945648}
+  playerdonothing: 0
+  quantspentbtn: {fileID: 31133301}
+  cmmovement: {fileID: 1474878211}
 --- !u!4 &985810920
 Transform:
   m_ObjectHideFlags: 0
@@ -10958,6 +10967,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &985810921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985810918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e966703d8605b648b3e3461286fc32a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalQuantavalue: 0
+  coisUsed: 0
+  finalQuantavaluetxt: {fileID: 1911905385}
+  revivalquantacoins: {fileID: 1519810340}
+  revivalbtn: {fileID: 31133301}
+  currentCase: 0
+  revivalcount: 0
 --- !u!1 &999397478
 GameObject:
   m_ObjectHideFlags: 0
@@ -23145,6 +23173,7 @@ MonoBehaviour:
   - {fileID: 1474878210}
   - {fileID: 1543858208}
   highscoreText: {fileID: 47956929}
+  timeover: 0
 --- !u!4 &1474878212
 Transform:
   m_ObjectHideFlags: 0
@@ -23625,7 +23654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -30857,7 +30886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

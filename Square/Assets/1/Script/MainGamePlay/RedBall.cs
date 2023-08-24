@@ -39,7 +39,7 @@ public class RedBall : MonoBehaviour
     public SoundSystem soundController;
     public static RedBall Instance { get; private set; }
 
-    private int deathCount = 0;
+    public int deathCount = 0;
     public int noOfTimesBallSpawnAfterDeath;
 
 
@@ -49,15 +49,23 @@ public class RedBall : MonoBehaviour
     public float targetDistance = 0f;
     bool shouldTranslate = true;
     public Button startButton;
-    public  GameObject taptoshoot;
+    public GameObject taptoshoot;
     public GameObject PLayer;
     public ParticleSystem[] bullett_ribbon;
 
     public PauseGame Pgame;
+    public Button buyrevival;
+    bool spentquantacoins = false;
 
+
+    public PauseGame pgame;
+
+    public Button Quitbtn;
     void Start()
     {
-        deathCount = PlayerPrefs.GetInt("DeathCount", deathCount);
+        deathCount = 0;
+        buyrevival.onClick.AddListener(continuegame);
+        Quitbtn.onClick.AddListener(quitgame);
     }
 
     public void callbutton()
@@ -70,9 +78,9 @@ public class RedBall : MonoBehaviour
         StartCoroutine(IncreaseSizeCoroutine());
         barPathSize.size = new Vector2(2 * Math.Abs(startPosition - 0.25f - transform.localScale.x / 2), 0.48f);  //bar length dependency accorrding to ball coordinates 
         bar.transform.position = new Vector2(0, -startPosition);
-    
 
-    } 
+
+    }
 
 
     private void Update()
@@ -82,7 +90,7 @@ public class RedBall : MonoBehaviour
         if (!shouldTranslate)
         {
 
-        
+
             if (Input.GetMouseButtonDown(0))
             {
                 multiplier *= -1;
@@ -148,7 +156,7 @@ public class RedBall : MonoBehaviour
             yield return null;  // Wait for the next frame
         }
 
-       
+
 
         // Move left
         float elapsedTime = 0f;
@@ -163,12 +171,12 @@ public class RedBall : MonoBehaviour
         }
 
         shouldTranslate = false;  // Stop the translation
-        
+
     }
 
     private IEnumerator IncreaseSizeCoroutine()
     {
-        
+
 
 
         float originalSize = transform.localScale.x;
@@ -176,13 +184,13 @@ public class RedBall : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < sizeIncreaseDuration)                                                                   //Ball Size Controller
         {
-          
+
             elapsedTime += Time.deltaTime;
             storedScaleBallTime = Mathf.Clamp01(elapsedTime / sizeIncreaseDuration);
             transform.localScale = Vector3.one * Mathf.Lerp(originalSize, targetSize, storedScaleBallTime);
             yield return null;
         }
-       
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -196,50 +204,33 @@ public class RedBall : MonoBehaviour
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
         {
-           
+
             Debug.Log("destroy happen");
-         //   DeathCounter();
-            Time.timeScale = 0; 
-            Pgame.PauseScreen();
-
-            
-            
-               
-            
-               
 
 
-            
-            soundController.explode();                                                                              //Ball all  object collision  Controller
+
             if (collision.gameObject)
             {
+                soundController.explode();
 
-                stopball = true;
+               
+                Pgame.PauseScreen();
 
-
-                for (int i = 0; i < obstaclesControllers.Length; i++)
+                if (spentquantacoins)
                 {
-                    obstaclesControllers[i].shouldMove = true;
+                    DeathCounter();
+
+                    return;
                 }
+                else
+                {
+                   
 
+                    StartCoroutine(EndGameCOntroller());
 
-                SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-                spriteRenderer.enabled = false;
-             
-             CircleCollider2D collider = GetComponent<CircleCollider2D>();
-                collider.enabled = false;
-                
-                
-                 
-                destroyparticleSystem.UnpauseParticleSystem();
-                bullett_ribbon[0].Stop();
-                bullett_ribbon[1].Stop();
-
-              
+                }
                 
 
-                Debug.Log("DeathCount" + deathCount);
-                StartCoroutine(DestroyDelay());
 
             }
 
@@ -247,40 +238,79 @@ public class RedBall : MonoBehaviour
 
     }
 
-    IEnumerator DestroyDelay()                                                    //Ball Destroy controller and restart page calling
+    void quitgame()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
-        Debug.Log("Flag initiation Successfull");                                            
+        StartCoroutine(EndGameCOntroller());
+    }
+
+
+
+    void DeathCounter()
+    {
+        deathCount++;
+        PlayerPrefs.SetInt("DeathCount", deathCount);
+        Debug.Log("Death COunt " + deathCount);
+
+
+        if (deathCount <= 2)
+        {
+            Time.timeScale = 0;
+
+
+
+        }
+        else
+        {
+            Pgame.UnpauseScreen();
+
+            deathCount = 0; // Reset deathCount back to 0
+
+        }
+    }
+
+    IEnumerator EndGameCOntroller()
+    {
+
+        yield return new WaitForSeconds(0);
+
+        stopball = true;
+
+
+        for (int i = 0; i < obstaclesControllers.Length; i++)
+        {
+            obstaclesControllers[i].shouldMove = true;
+        }
+
+
+        SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
+
+        CircleCollider2D collider = GetComponent<CircleCollider2D>();
+        collider.enabled = false;
+
+
+
+        destroyparticleSystem.UnpauseParticleSystem();
+        bullett_ribbon[0].Stop();
+        bullett_ribbon[1].Stop();
+
+
+
+
+       
+
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Flag initiation Successfull");
         destroyparticleSystem.NonActive();
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSeconds(0.5f);
         cameraMOvement.ball_collision_successful = true;
 
-
     }
 
-   
+    void continuegame()
+    {
+        spentquantacoins = true;
 
-
-  
+    }
 
 }
-/*void DeathCounter()
-{
-    deathCount++;
-
-    PlayerPrefs.SetInt("DeathCount", deathCount);
-    PlayerPrefs.Save();
-
-    if (deathCount % noOfTimesBallSpawnAfterDeath == 0)
-    {
-
-
-
-        StartCoroutine(A());
-    }
-    else
-    {
-        Pgame.PauseScreen();
-    }
-}*/
-

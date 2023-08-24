@@ -11,7 +11,7 @@ public class points : MonoBehaviour
     [HideInInspector] public  int score;
 
 
-   public static int totalScore = 0;
+   public  int totalScore = 0;
     void Start()
     {
         score = 0;

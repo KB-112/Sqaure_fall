@@ -14,13 +14,27 @@ public class PauseGame : MonoBehaviour
     [HideInInspector] public bool isTimerRunning = false;
 
     public Button Quitbtn;
+   public  bool playerdonothing = false;
+    public Button quantspentbtn;
+    float currentTime;
 
+    public CameraMOvement cmmovement;
     private void Start()
     {
         timerImage.fillAmount = startTime;
         StartCoroutine(RunTimer());
         Quitbtn.onClick.AddListener(SkipTimer);
+        quantspentbtn.onClick.AddListener(timeReset);
     }
+
+    public void timeReset()
+    {
+        isTimerRunning = false;
+        currentTime = startTime; // Reset currentTime to its initial value
+        timerImage.fillAmount = currentTime / startTime; // Reset the UI fill amount
+        UnpauseScreen();
+    }
+
 
     public void PauseScreen()
     {
@@ -32,6 +46,7 @@ public class PauseGame : MonoBehaviour
 
     public void UnpauseScreen()
     {
+       
         isTimerRunning = false;
         PauseMenu.SetActive(false);
        
@@ -40,7 +55,7 @@ public class PauseGame : MonoBehaviour
 
     private IEnumerator RunTimer()
     {
-        float currentTime = startTime;
+        currentTime = startTime;
 
         while (currentTime > 0f)
         {
@@ -52,40 +67,37 @@ public class PauseGame : MonoBehaviour
 
             yield return null;
         }
-
-        // Timer has finished, perform any actions you need here.
+     
+      cmmovement.timeover = true;//end game
+        UnpauseScreen();
+     
         if (InterstialAdss.interstitialAd != null && InterstialAdss.interstitialAd.CanShowAd())
         {
+           
             StartCoroutine(A());
-
-            InterstialAdss.interstitialAd.OnAdFullScreenContentClosed += () =>
-            {
-
-                UnpauseScreen();
-
-
-
-            };
+             //if player do nothing neither click any btn
         }
 
 
        
         
     }
-    public void SkipTimer()
+    public void SkipTimer()  //quit btn
     {
+       
         isTimerRunning = false;
-        timerImage.fillAmount = 0f;
+        timerImage.fillAmount = 0f;      
         UnpauseScreen();
+        
         Debug.Log("Timer has been skipped!");
 
 
 
     }
 
-    IEnumerator A()
+    IEnumerator A() // ads
     {
-        yield return null;
+        yield return new WaitForSeconds(0);
         InterstialAdss.instance.ShowAd();
     }
 }

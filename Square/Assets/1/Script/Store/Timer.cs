@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour
     bool checkButtonClicked;
 
     TimeSpan[] OneDayCards = new TimeSpan[5];
-    int newButtonIndex;
+    
     int buttonIndex;
 
     private void Start()

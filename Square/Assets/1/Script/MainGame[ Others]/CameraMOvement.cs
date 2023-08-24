@@ -15,6 +15,8 @@ public class CameraMOvement : MonoBehaviour
     public bool ball_collision_successful = false;  // Boolean value passed in Redball for detection of the collision and restart screen appears 
     public GameObject[] Restart_panel;
     public GameObject highscoreText;
+
+    public  bool timeover = false;
     void Start()
     {
       highscoreText.SetActive(false);
@@ -26,7 +28,7 @@ public class CameraMOvement : MonoBehaviour
 
     public void Update()
     {
-        if (ball_collision_successful)
+        if (ball_collision_successful || timeover)
          {
             highscoreText.SetActive (true);
             float step = speed * Time.deltaTime;

@@ -5,10 +5,11 @@ using TMPro;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Sample;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class CurrencyManager : MonoBehaviour
 {
-    
+
     public int totalContractorScore;
     public int appIntitalStage;
 
@@ -22,19 +23,21 @@ public class CurrencyManager : MonoBehaviour
 
     //-------------QuantaCoins
 
-    public int Quantacoins ;
+    public int Quantacoins;
     public TextMeshProUGUI TotalQuantavalue;
-    public int QuantRewardValue ;
+    public int QuantRewardValue;
 
     public Button okbtn;
     public Button SpentQuantaCoin;
     public int coin;
 
+
+    public static int newScore;
     public void Start()
     {
         if (!PlayerPrefs.HasKey("TotalScore"))
         {
-            playerScore = 0;
+            playerScore = 20;
             PlayerPrefs.SetInt("TotalScore", playerScore);
             PlayerPrefs.Save();
         }
@@ -52,14 +55,14 @@ public class CurrencyManager : MonoBehaviour
         //-----------------Quantacoins
         Quantacoins = PlayerPrefs.GetInt("SpentQuantCoin");
         Quantacoins = PlayerPrefs.GetInt("QuantCoin");
-       
+
         TotalQuantavalue.text = Quantacoins.ToString();
 
 
 
         okbtn.onClick.AddListener(clickOkbtn);
         SpentQuantaCoin.onClick.AddListener(SpentQuantaCoinBtn);
-        if(totalContractorScore ==0)
+        if (totalContractorScore == 0)
         {
             PlayBtn.enabled = false;
         }
@@ -67,10 +70,11 @@ public class CurrencyManager : MonoBehaviour
         {
             PlayBtn.enabled = true;
         }
-
+       
+        sharescore();
     }
 
-    public void  SpentQuantcoin()
+    public void SpentQuantcoin()
     {
         coin = 50;
         Quantacoins -= coin;
@@ -96,11 +100,11 @@ public class CurrencyManager : MonoBehaviour
     }
     public void clickOkbtn()
     {
-
+        AddingQuantaCoins();
         if (RewardedInterstitialAdController.Quantacoinsreward)
         {
-            AddingQuantaCoins();
-           
+          
+
         }
         TotalQuantavalue.text = Quantacoins.ToString();
         PlayerPrefs.SetInt("QuantCoin", Quantacoins);
@@ -122,6 +126,14 @@ public class CurrencyManager : MonoBehaviour
     }
 
 
+    void sharescore()
+    {
+        newScore = Quantacoins;
+        PlayerPrefs.SetInt("sharescore", newScore);
+        PlayerPrefs.Save();
+        Debug.Log("newScore-->" + newScore);
 
-   
+    }
+
+  
 }
