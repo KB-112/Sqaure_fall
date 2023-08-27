@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
+
 using UnityEngine.UI;
-using GoogleMobileAds.Api;
 
 
-public class RedBall : MonoBehaviour
+public class leveltestball : MonoBehaviour
 {
+
     [Header("BOOLEAN")]
     public bool stopball = false;
     bool check = false;
@@ -214,7 +213,7 @@ public class RedBall : MonoBehaviour
             {
                 soundController.explode();
 
-               
+
                 Pgame.PauseScreen();
 
                 if (spentquantacoins)
@@ -225,12 +224,12 @@ public class RedBall : MonoBehaviour
                 }
                 else
                 {
-                   
+
 
                     StartCoroutine(EndGameCOntroller());
 
                 }
-                
+
 
 
             }
@@ -298,7 +297,7 @@ public class RedBall : MonoBehaviour
 
 
 
-       
+
 
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Flag initiation Successfull");
@@ -313,5 +312,4 @@ public class RedBall : MonoBehaviour
         spentquantacoins = true;
 
     }
-
 }

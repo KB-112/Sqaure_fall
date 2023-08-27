@@ -9,7 +9,7 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
     public float interval = 1f;
     private int currentIndex = 0;
     private int iterations = 0;
-    public Vector3 spawnPositionOffset;
+    private Vector3 spawnPositionOffset;
 
 
     public RedBall redBall;
@@ -49,11 +49,11 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
         while (!redBall.stopball)
         {
 
-            Vector3 spawnPosition = transform.position + spawnPositionOffset;
+           // Vector3 spawnPosition = transform.position + spawnPositionOffset;
             
-            CollectiblesIterationController();
+         //   CollectiblesIterationController();
            
-            spawnedObject = Instantiate(gameObjects[currentIndex], transform.position, Quaternion.identity);
+            spawnedObject = Instantiate(gameObjects[currentIndex]);
 
           
 
@@ -68,14 +68,15 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
             }
             if (iterations < 2)
             {
-                DontDestroyOnLoad(spawnedObject);
+                DontDestroyOnLoad(this);
             }
 
             yield return new WaitForSeconds(interval);
 
-            
 
-                Destroy(spawnedObject,10);
+
+            //  Destroy(spawnedObject,10);s
+            Destroy(spawnedObject,destroyInstant);
             
             
 
@@ -105,7 +106,7 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
             {
                 Debug.Log("Square spawned");
               
-                CollectibleSelection();
+              //  CollectibleSelection();
                 
                  
 
@@ -120,9 +121,9 @@ public class ObstaclesSpawnBehaviour : MonoBehaviour
     {
       
         int randomIndex = Random.Range(0, Collectibles.Count);
-       
+
         obj = Instantiate(Collectibles[randomIndex]);
-        obj.transform.SetParent(spawnedObject.transform);
+        //obj.transform.SetParent(spawnedObject.transform);
         obj.SetActive(true);
             iterations++;
       

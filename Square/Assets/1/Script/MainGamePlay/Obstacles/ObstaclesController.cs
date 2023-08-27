@@ -5,7 +5,6 @@ using UnityEngine;
 public class ObstaclesController : MonoBehaviour
 {
     private float elapsedTime;
-    private float reservedTime;
     private Vector2 currentStartPos;
     private Vector2 currentEndPos;
     private bool moving = true;
